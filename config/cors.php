@@ -29,16 +29,6 @@ return [
 
     'max_age' => 0,
 
-    'supports_credentials' => true,
+    'supports_credentials' => false,
 
-    'api/*',
-    'login',
-    'logout',
-    'register',
-    'user/password',
-    'forgot-password',
-    'reset-password',
-    'sanctum/csrf-cookie',
-    'user/profile-information',
-    'email/verification-notification',
 ];
