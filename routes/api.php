@@ -16,12 +16,16 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
-Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
-  return $request->user();
-});
+// Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
+//     return $request->user();
+// });
 
 Route::post('/sanctum/token', TokenController::class);
 
 Route::middleware(['auth:sanctum'])->group(function () {
-  Route::get('/users/auth', AuthController::class);
+    Route::get('/user', function (Request $request) {
+        return $request->user();
+    });
+
+    Route::get('/users/auth', AuthController::class);
 });
