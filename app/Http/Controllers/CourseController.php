@@ -2,6 +2,8 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Requests\StoreCourseRequest;
+use App\Models\Course;
 use Illuminate\Http\Request;
 
 class CourseController extends Controller
@@ -25,9 +27,18 @@ class CourseController extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(Request $request)
+    public function store(StoreCourseRequest $request)
     {
-        //
+        $course = new Course();
+        $course->name = $request->name;
+        $course->start_date = $request->start_date;
+        $course->end_date = $request->start_date;
+
+        $course->save();
+
+        return response()->json([
+            'submitted POST request successfully'
+        ], 201);
     }
 
     /**
