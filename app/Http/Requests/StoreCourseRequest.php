@@ -26,7 +26,8 @@ class StoreCourseRequest extends FormRequest
         return [
             'name' => 'required|max:255',
             'startDate' => 'required|date',
-            'endDate' => 'required|date'
+            'endDate' => 'required|date',
+            'teachingDays' => 'required|array'
         ];
     }
 }
