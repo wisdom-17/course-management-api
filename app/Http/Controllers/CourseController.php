@@ -37,7 +37,7 @@ class CourseController extends Controller
         $course->save();
 
         return response()->json([
-            'submitted POST request successfully'
+            'Saved new Course successfully'
         ], 201);
     }
 
