@@ -4,7 +4,9 @@ namespace App\Http\Controllers;
 
 use App\Http\Requests\StoreCourseRequest;
 use App\Models\Course;
+use Carbon\Carbon;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Log;
 
 class CourseController extends Controller
 {
@@ -31,8 +33,9 @@ class CourseController extends Controller
     {
         $course = new Course();
         $course->name = $request->name;
-        $course->start_date = $request->start_date;
-        $course->end_date = $request->start_date;
+        $course->start_date = Carbon::parse($request->startDate)->format('Y-m-d H:i:s');
+        $course->end_date = Carbon::parse($request->endDate)->format('Y-m-d H:i:s');
+        $course->teaching_days = $request->teachingDays;
 
         $course->save();
 
