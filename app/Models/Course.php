@@ -8,4 +8,8 @@ use Illuminate\Database\Eloquent\Model;
 class Course extends Model
 {
     use HasFactory;
+
+    protected $casts = [
+        'teaching_days' => 'array'
+    ];
 }
