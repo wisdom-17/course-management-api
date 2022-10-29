@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Http\Requests\StoreCourseRequest;
+use App\Http\Resources\CourseResource;
 use App\Models\Course;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
@@ -17,10 +18,9 @@ class CourseController extends Controller
      */
     public function index()
     {
-        //
-        return response()->json([
-            'success' => 'success'
-        ], 200);
+        return response()->json(
+            CourseResource::collection(Course::all())
+        , 200);
     }
 
     /**
