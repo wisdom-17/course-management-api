@@ -33,14 +33,15 @@ class CourseController extends Controller
     {
         $course = new Course();
         $course->name = $request->name;
-        $course->start_date = Carbon::parse($request->startDate)->format('Y-m-d H:i:s');
-        $course->end_date = Carbon::parse($request->endDate)->format('Y-m-d H:i:s');
+        $course->start_date = Carbon::parse($request->startDate)->format('Y-m-d');
+        $course->end_date = Carbon::parse($request->endDate)->format('Y-m-d');
         $course->teaching_days = $request->teachingDays;
 
         $course->save();
 
         return response()->json([
-            'Saved new Course successfully'
+            'message' => 'Saved new Course successfully',
+            'id' => $course->id
         ], 201);
     }
 
