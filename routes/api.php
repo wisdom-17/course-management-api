@@ -3,6 +3,7 @@
 use App\Http\Controllers\TokenController;
 use App\Http\Controllers\AuthController;
 use App\Http\Controllers\CourseController;
+use App\Http\Controllers\CourseDatesController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 
@@ -30,5 +31,8 @@ Route::middleware(['auth:sanctum'])->group(function () {
 
     Route::get('/users/auth', AuthController::class);
 
-    Route::apiResource('courses', CourseController::class);
+    Route::apiResources([
+        'courses' => CourseController::class,
+        'courses.dates' => CourseDatesController::class
+    ]);
 });
