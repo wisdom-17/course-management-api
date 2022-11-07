@@ -2,7 +2,13 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Requests\StoreCourseDateRequest;
+use App\Models\Course;
+use App\Models\CourseDate;
+use App\Models\DateType;
+use Carbon\Carbon;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Log;
 
 class CourseDatesController extends Controller
 {
@@ -22,9 +28,24 @@ class CourseDatesController extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(Request $request)
+    public function store(StoreCourseDateRequest $request, $courseId)
     {
-        //
+        $course = Course::findOrFail($courseId);
+        $dateType = DateType::where('type', $request->dateType)->first();
+
+        foreach ($request->dates as $dateRange) {
+            $courseDate = new CourseDate();
+            $courseDate->course_id = $course->id;
+            $courseDate->type_id = $dateType->id;
+            $courseDate->start_date = Carbon::parse($dateRange[0])->format('Y-m-d');
+            $courseDate->end_date = Carbon::parse($dateRange[1])->format('Y-m-d');
+
+            $courseDate->save();
+        }
+
+        return response()->json([
+            'Saved Course dates successfully'
+        ], 201);
     }
 
     /**
