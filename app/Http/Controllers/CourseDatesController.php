@@ -28,9 +28,8 @@ class CourseDatesController extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(StoreCourseDateRequest $request, $courseId)
+    public function store(StoreCourseDateRequest $request, Course $course)
     {
-        $course = Course::findOrFail($courseId);
         $dateType = DateType::where('type', $request->dateType)->first();
 
         foreach ($request->dates as $dateRange) {
