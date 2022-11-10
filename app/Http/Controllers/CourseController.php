@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Requests\DestroyCourseRequest;
 use App\Http\Requests\StoreCourseRequest;
 use App\Http\Resources\CourseResource;
 use App\Models\Course;
@@ -71,11 +72,18 @@ class CourseController extends Controller
     /**
      * Remove the specified resource from storage.
      *
-     * @param  int  $id
+     * @param  Array  $courseIds
      * @return \Illuminate\Http\Response
      */
-    public function destroy($id)
+    public function destroy(DestroyCourseRequest $request)
     {
-        //
+        foreach ($request->courseIds as $id) {
+            $course = Course::find($id);
+            $course->delete(); // soft delete
+        }
+
+        return response()->json([
+            'Deleted Course successfully'
+        ], 200);
     }
 }

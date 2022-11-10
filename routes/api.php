@@ -31,8 +31,20 @@ Route::middleware(['auth:sanctum'])->group(function () {
 
     Route::get('/users/auth', AuthController::class);
 
+    // - defined outside of apiResources because we want to
+    // delete multiple courses using this endpoint
+    // 
+    // - defined as a PATCH request because we are soft deleting (this is not considered DELETE)
+    // soft deleting just changes the value of the deleted_at column
+    Route::patch('/courses', [CourseController::class, 'destroy']);
+
+    // we don't want the default destroy route, as it supports deleting one record 
+    // we want to delete multiple in one request hence the above
+    Route::apiResource('courses', CourseController::class)->except('destroy');
+
     Route::apiResources([
-        'courses' => CourseController::class,
+        // 'courses' => CourseController::class,
         'courses.dates' => CourseDatesController::class
     ]);
+    
 });
