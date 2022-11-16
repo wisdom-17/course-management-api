@@ -25,6 +25,7 @@ class UpdateCourseRequest extends FormRequest
     {
         return [
             'id' => 'exists:courses',
+            'name' => 'required|max:255',
             'startDate' => 'required|date',
             'endDate' => 'required|date',
             'teachingDays' => 'required|array'
