@@ -67,7 +67,17 @@ class CourseController extends Controller
      */
     public function update(UpdateCourseRequest $request, Course $course)
     {
-        //
+        $course->name = $request->name;
+        $course->start_date = Carbon::parse($request->startDate)->format('Y-m-d');
+        $course->end_date = Carbon::parse($request->endDate)->format('Y-m-d');
+        $course->teaching_days = $request->teachingDays;
+        $course->save();
+
+        return response()->json([
+            'message' => 'Updated Course successfully',
+            'id' => $course->id
+        ], 200);
+
     }
 
     /**
