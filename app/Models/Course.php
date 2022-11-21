@@ -14,4 +14,12 @@ class Course extends Model
     protected $casts = [
         'teaching_days' => 'array'
     ];
+
+    /**
+     * Get dates for the course
+     */
+    public function courseDates()
+    {
+        return $this->hasMany(CourseDate::class);
+    }
 }

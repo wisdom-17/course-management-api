@@ -3,9 +3,10 @@
 namespace App\Http\Resources;
 
 use Illuminate\Http\Resources\Json\JsonResource;
-use App\Http\Resources\CourseDateResource;
+use App\Http\Resources\DateTypeResource;
+use Illuminate\Support\Facades\Log;
 
-class CourseResource extends JsonResource
+class CourseDateResource extends JsonResource
 {
     /**
      * Transform the resource into an array.
@@ -15,17 +16,16 @@ class CourseResource extends JsonResource
      */
     public function toArray($request)
     {
+        Log::info($this->dateType);
         return [
             'id' => $this->id,
-            'name' => $this->name,
+            'courseId' => $this->course_id,
+            'type' => $this->dateType,
             'startDate' => $this->start_date,
             'endDate' => $this->end_date,
-            'teachingDays' => $this->teaching_days,
-            'dates' => CourseDateResource::collection($this->courseDates),
             'createdAt' => $this->created_at,
             'updatedAt' => $this->updated_at,
-            'deletedAt' => $this->start_date,
+            'deletedAt' => $this->deleted_at,
         ];
     }
 }
-
