@@ -28,7 +28,7 @@ class TeacherController extends Controller
     {
         $teacher = new Teacher();
         $teacher->name = $request->name;
-        $teacher->hourly_rate = $request->hourly_rate;
+        $teacher->hourly_rate = $request->hourlyRate;
         $teacher->save();
 
         return response()->json([
