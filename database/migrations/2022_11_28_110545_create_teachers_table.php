@@ -16,7 +16,7 @@ return new class extends Migration
         Schema::create('teachers', function (Blueprint $table) {
             $table->id();
             $table->string('name', 255);
-            $table->decimal('hourly_pay', 19, 2);
+            $table->decimal('hourly_rate', 19, 2);
             $table->softDeletes();
             $table->timestamps();
         });
