@@ -25,7 +25,7 @@ class StoreTeacherRequest extends FormRequest
     {
         return [
             'name' => 'required',
-            'hourlyPay' => 'required|numeric'
+            'hourlyRate' => 'required|numeric|min:7'
         ];
     }
 }
