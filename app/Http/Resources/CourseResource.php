@@ -24,7 +24,7 @@ class CourseResource extends JsonResource
             'dates' => CourseDateResource::collection($this->courseDates),
             'createdAt' => $this->created_at,
             'updatedAt' => $this->updated_at,
-            'deletedAt' => $this->start_date,
+            'deletedAt' => $this->deleted_at,
         ];
     }
 }
