@@ -60,7 +60,14 @@ class TeacherController extends Controller
      */
     public function update(UpdateTeacherRequest $request, Teacher $teacher)
     {
-        //
+        $teacher->name = $request->name;
+        $teacher->hourly_rate = $request->hourlyRate;
+        $teacher->save();
+
+        return response()->json([
+            'message' => 'Updated teacher successfully',
+            'id' => $teacher->id
+        ], 200);
     }
 
     /**
