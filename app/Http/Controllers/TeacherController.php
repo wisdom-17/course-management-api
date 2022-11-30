@@ -78,6 +78,10 @@ class TeacherController extends Controller
      */
     public function destroy(Teacher $teacher)
     {
-        //
+        $teacher->delete(); // soft delete
+
+        return response()->json([
+            'Deleted Teacher successfully'
+        ], 200);
     }
 }
