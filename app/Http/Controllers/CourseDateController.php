@@ -3,14 +3,13 @@
 namespace App\Http\Controllers;
 
 use App\Http\Requests\StoreCourseDateRequest;
-use App\Models\Course;
+use App\Models\CourseCalendar;
 use App\Models\CourseDate;
 use App\Models\DateType;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Log;
 
-class CourseDatesController extends Controller
+class CourseDateController extends Controller
 {
     /**
      * Display a listing of the resource.
@@ -28,13 +27,13 @@ class CourseDatesController extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(StoreCourseDateRequest $request, Course $course)
+    public function store(StoreCourseDateRequest $request, CourseCalendar $courseCalendar)
     {
         $dateType = DateType::where('type', $request->dateType)->first();
 
         foreach ($request->dates as $dateRange) {
             $courseDate = new CourseDate();
-            $courseDate->course_id = $course->id;
+            $courseDate->course_id = $courseCalendar->id;
             $courseDate->type_id = $dateType->id;
             $courseDate->start_date = Carbon::parse($dateRange[0])->format('Y-m-d');
             $courseDate->end_date = Carbon::parse($dateRange[1])->format('Y-m-d');

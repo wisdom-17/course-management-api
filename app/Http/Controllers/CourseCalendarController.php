@@ -3,13 +3,13 @@
 namespace App\Http\Controllers;
 
 use App\Http\Requests\DestroyCourseRequest;
-use App\Http\Requests\StoreCourseRequest;
+use App\Http\Requests\StoreCourseCalendarRequest;
 use App\Http\Requests\UpdateCourseRequest;
 use App\Http\Resources\CourseResource;
-use App\Models\Course;
+use App\Models\CourseCalendar;
 use Carbon\Carbon;
 
-class CourseController extends Controller
+class CourseCalendarController extends Controller
 {
     /**
      * Display a listing of the resource.
@@ -29,19 +29,18 @@ class CourseController extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(StoreCourseRequest $request)
+    public function store(StoreCourseCalendarRequest $request)
     {
-        $course = new Course();
-        $course->name = $request->name;
-        $course->start_date = Carbon::parse($request->startDate)->format('Y-m-d');
-        $course->end_date = Carbon::parse($request->endDate)->format('Y-m-d');
-        $course->teaching_days = $request->teachingDays;
+        $courseCalendar = new CourseCalendar();
+        $courseCalendar->name = $request->name;
+        $courseCalendar->start_date = Carbon::parse($request->startDate)->format('Y-m-d');
+        $courseCalendar->end_date = Carbon::parse($request->endDate)->format('Y-m-d');
 
-        $course->save();
+        $courseCalendar->save();
 
         return response()->json([
-            'message' => 'Saved new Course successfully',
-            'id' => $course->id
+            'message' => 'Saved new Course Calendar successfully',
+            'id' => $courseCalendar->id
         ], 201);
     }
 
@@ -63,13 +62,12 @@ class CourseController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function update(UpdateCourseRequest $request, Course $course)
+    public function update(UpdateCourseRequest $request, CourseCalendar $courseCalendar)
     {
-        $course->name = $request->name;
-        $course->start_date = Carbon::parse($request->startDate)->format('Y-m-d');
-        $course->end_date = Carbon::parse($request->endDate)->format('Y-m-d');
-        $course->teaching_days = $request->teachingDays;
-        $course->save();
+        $courseCalendar->name = $request->name;
+        $courseCalendar->start_date = Carbon::parse($request->startDate)->format('Y-m-d');
+        $courseCalendar->end_date = Carbon::parse($request->endDate)->format('Y-m-d');
+        $courseCalendar->save();
 
         return response()->json([
             'message' => 'Updated Course successfully',
@@ -86,13 +84,13 @@ class CourseController extends Controller
      */
     public function destroy(DestroyCourseRequest $request)
     {
-        foreach ($request->courseIds as $id) {
-            $course = Course::find($id);
+        foreach ($request->courseCalendarIds as $id) {
+            $course = CourseCalendar::find($id);
             $course->delete(); // soft delete
         }
 
         return response()->json([
-            'Deleted Course successfully'
+            'Deleted Course Calendar(s) successfully'
         ], 200);
     }
 }
