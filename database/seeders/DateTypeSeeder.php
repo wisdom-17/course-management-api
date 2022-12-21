@@ -16,11 +16,10 @@ class DateTypeSeeder extends Seeder
     public function run()
     {
         DB::table('date_types')->insert(
-            ['type' => 'term'],
-            ['type' => 'holiday'],
+            ['type' => 'term']
         );
         DB::table('date_types')->insert(
-            ['type' => 'holiday'],
+            ['type' => 'holiday']
         );
     }
 }

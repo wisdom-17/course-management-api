@@ -33,7 +33,7 @@ class CourseDateController extends Controller
 
         foreach ($request->dates as $dateRange) {
             $courseDate = new CourseDate();
-            $courseDate->course_id = $courseCalendar->id;
+            $courseDate->course_calendar_id = $courseCalendar->id;
             $courseDate->type_id = $dateType->id;
             $courseDate->start_date = Carbon::parse($dateRange[0])->format('Y-m-d');
             $courseDate->end_date = Carbon::parse($dateRange[1])->format('Y-m-d');

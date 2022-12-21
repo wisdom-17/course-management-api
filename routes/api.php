@@ -44,7 +44,7 @@ Route::middleware(['auth:sanctum'])->group(function () {
     Route::apiResource('course-calendars', CourseCalendarController::class)->except('destroy');
 
     Route::apiResources([
-        'courses.dates' => CourseDateController::class,
+        'course-calendars.dates' => CourseDateController::class,
         'teachers' => TeacherController::class
     ]);
     
