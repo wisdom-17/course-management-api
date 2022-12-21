@@ -5,7 +5,7 @@ namespace App\Http\Resources;
 use Illuminate\Http\Resources\Json\JsonResource;
 use App\Http\Resources\CourseDateResource;
 
-class CourseResource extends JsonResource
+class CourseCalendarResource extends JsonResource
 {
     /**
      * Transform the resource into an array.
@@ -20,7 +20,6 @@ class CourseResource extends JsonResource
             'name' => $this->name,
             'startDate' => $this->start_date,
             'endDate' => $this->end_date,
-            'teachingDays' => $this->teaching_days,
             'dates' => CourseDateResource::collection($this->courseDates),
             'createdAt' => $this->created_at,
             'updatedAt' => $this->updated_at,

@@ -5,7 +5,7 @@ namespace App\Http\Controllers;
 use App\Http\Requests\DestroyCourseRequest;
 use App\Http\Requests\StoreCourseCalendarRequest;
 use App\Http\Requests\UpdateCourseRequest;
-use App\Http\Resources\CourseResource;
+use App\Http\Resources\CourseCalendarResource;
 use App\Models\CourseCalendar;
 use Carbon\Carbon;
 
@@ -19,7 +19,7 @@ class CourseCalendarController extends Controller
     public function index()
     {
         return response()->json(
-            CourseResource::collection(Course::all())
+            CourseCalendarResource::collection(CourseCalendar::all())
         , 200);
     }
 
