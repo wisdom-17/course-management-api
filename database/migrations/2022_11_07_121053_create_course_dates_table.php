@@ -15,7 +15,7 @@ return new class extends Migration
     {
         Schema::create('course_dates', function (Blueprint $table) {
             $table->id();
-            $table->foreignId('course_id')->constrained();
+            $table->foreignId('course_calendar_id')->constrained();
             $table->foreignId('type_id')->constrained('date_types');
             $table->date('start_date');
             $table->date('end_date');
