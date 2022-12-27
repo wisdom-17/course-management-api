@@ -1,10 +1,19 @@
 <?php
+use App\Models\User;
+use App\Models\Teacher;
+use Illuminate\Testing\Fluent\AssertableJson;
 
-// TODO: create a user, login and use logged in user to make the requests in the tests
+beforeEach(function () {
+    $this->user = User::factory()->create();
+    $this->teachers = Teacher::factory()->count(3)->create();
+
+});
 
 test('returns an array of teacher objects', function () {
-    // print_r($this->get('/api/teachers'));
-    $response = $this->get('/api/teachers')->assertStatus(200);
-
-
+    $response = $this->actingAs($this->user)
+        ->get('/api/teachers')
+        ->assertJson(fn (AssertableJson $json) => 
+            $json->has(3)
+        )
+        ->assertStatus(200);
 });
