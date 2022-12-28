@@ -17,3 +17,9 @@ test('returns an array of teacher objects', function () {
         )
         ->assertStatus(200);
 });
+
+test('empty teacher data throws validation error when saving', function () {
+    $response = $this->actingAs($this->user)
+        ->postJson('/api/teachers')
+        ->assertStatus(422);
+});
