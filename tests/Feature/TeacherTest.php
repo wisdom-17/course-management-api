@@ -30,3 +30,20 @@ test('teacher saves successfully to db when valid teacher data provided', functi
         ->assertValid()
         ->assertCreated();
 });
+
+test('existing teacher updates successfully when valid teacher data provided', function () {
+    $teacherId = $this->teachers->first()->id;
+    $response = $this->actingAs($this->user)
+        ->patchJson('/api/teachers/'.$teacherId, ['name' => 'Updated Teacher Name', 'hourlyRate' => 25.00])
+        ->assertValid()
+        ->assertOk();
+});
+
+test('teacher is soft deleted', function () {
+    $teacherId = $this->teachers->first()->id;
+    $this->actingAs($this->user)
+        ->deleteJson('/api/teachers/'.$teacherId)
+        ->assertOk();
+    
+    $this->assertSoftDeleted($this->teachers->first());
+});
