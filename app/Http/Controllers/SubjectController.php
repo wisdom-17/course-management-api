@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Requests\StoreSubjectRequest;
 use Illuminate\Http\Request;
 
 class SubjectController extends Controller
@@ -22,7 +23,7 @@ class SubjectController extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(Request $request)
+    public function store(StoreSubjectRequest $request)
     {
         //
     }

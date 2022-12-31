@@ -13,7 +13,7 @@ class StoreSubjectRequest extends FormRequest
      */
     public function authorize()
     {
-        return false;
+        return true;
     }
 
     /**
@@ -24,7 +24,12 @@ class StoreSubjectRequest extends FormRequest
     public function rules()
     {
         return [
-            //
+            'name' => 'required',
+            'teacherId' => 'required|exists:teachers,id',
+            'courseCalendarId' => 'required|exists:course_calendars,id',
+            'daysTimes.*.day' => 'required_with_all:daysTimes.*.startTime, daysTimes.*.endTime',
+            'daysTimes.*.startTime' => 'required_with_all:daysTimes.*.day, daysTimes.*.endTime',
+            'daysTimes.*.endTime' => 'required_with_all:daysTimes.*.day, daysTimes.*.startTime',
         ];
     }
 }
