@@ -4,7 +4,7 @@ namespace App\Http\Requests;
 
 use Illuminate\Foundation\Http\FormRequest;
 
-class UpdateCourseRequest extends FormRequest
+class UpdateCourseCalendarRequest extends FormRequest
 {
     /**
      * Determine if the user is authorized to make this request.
@@ -24,11 +24,10 @@ class UpdateCourseRequest extends FormRequest
     public function rules()
     {
         return [
-            'id' => 'exists:courses',
+            'id' => 'required|exists:course_calendars',
             'name' => 'required|max:255',
             'startDate' => 'required|date',
             'endDate' => 'required|date',
-            'teachingDays' => 'required|array'
         ];
     }
 }

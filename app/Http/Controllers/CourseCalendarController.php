@@ -4,7 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Http\Requests\DestroyCourseRequest;
 use App\Http\Requests\StoreCourseCalendarRequest;
-use App\Http\Requests\UpdateCourseRequest;
+use App\Http\Requests\UpdateCourseCalendarRequest;
 use App\Http\Resources\CourseCalendarResource;
 use App\Models\CourseCalendar;
 use Carbon\Carbon;
@@ -62,7 +62,7 @@ class CourseCalendarController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function update(UpdateCourseRequest $request, CourseCalendar $courseCalendar)
+    public function update(UpdateCourseCalendarRequest $request, CourseCalendar $courseCalendar)
     {
         $courseCalendar->name = $request->name;
         $courseCalendar->start_date = Carbon::parse($request->startDate)->format('Y-m-d');
@@ -71,7 +71,7 @@ class CourseCalendarController extends Controller
 
         return response()->json([
             'message' => 'Updated Course successfully',
-            'id' => $course->id
+            'id' => $courseCalendar->id
         ], 200);
 
     }
