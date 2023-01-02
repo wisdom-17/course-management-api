@@ -9,5 +9,5 @@ beforeEach(function () {
 test('empty subject data throws validation error when saving', function () {
     $response = $this->actingAs($this->user)
         ->postJson('/api/subjects')
-        ->assertInvalid(['name', 'teacherId', 'courseCalendarId']);
+        ->assertInvalid(['name', 'teacherId', 'courseCalendarId', 'daysTimes']);
 });

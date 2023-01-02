@@ -27,6 +27,7 @@ class StoreSubjectRequest extends FormRequest
             'name' => 'required',
             'teacherId' => 'required|exists:teachers,id',
             'courseCalendarId' => 'required|exists:course_calendars,id',
+            'daysTimes' => 'required|array:startTime,endTime|min:1',
             'daysTimes.*.day' => 'required_with_all:daysTimes.*.startTime, daysTimes.*.endTime',
             'daysTimes.*.startTime' => 'required_with_all:daysTimes.*.day, daysTimes.*.endTime',
             'daysTimes.*.endTime' => 'required_with_all:daysTimes.*.day, daysTimes.*.startTime',
