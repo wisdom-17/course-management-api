@@ -5,9 +5,9 @@ namespace Database\Factories;
 use Illuminate\Database\Eloquent\Factories\Factory;
 
 /**
- * @extends \Illuminate\Database\Eloquent\Factories\Factory<\App\Models\SubjectDayTime>
+ * @extends \Illuminate\Database\Eloquent\Factories\Factory<\App\Models\CourseDate>
  */
-class SubjectDayTimeFactory extends Factory
+class CourseDateFactory extends Factory
 {
     /**
      * Define the model's default state.
@@ -19,9 +19,8 @@ class SubjectDayTimeFactory extends Factory
         $startDate = fake()->dateTimeBetween('next Tuesday', 'next Monday +7 days');
         $endDate = fake()->dateTimeBetween($startDate, $startDate->format('Y-m-d H:i:S').' +4 weeks');
         return [
-            'day' => fake()->dayOfWeek(),
-            'start_time' => $startDate->format('H:i:S'),
-            'end_time' => $endDate->format('H:i:S'),
+            'start_date' => $startDate->format('Y-m-d'),
+            'end_date' => $endDate->format('Y-m-d'),
         ];
     }
 }
