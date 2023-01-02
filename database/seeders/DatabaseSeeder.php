@@ -26,5 +26,9 @@ class DatabaseSeeder extends Seeder
             'email' => 'luke@jedi.com',
             'email_verified_at' => null,
         ]);
+
+        $this->call([
+            DateTypeSeeder::class
+        ]);
     }
 }
