@@ -13,4 +13,9 @@ class Subject extends Model
     {
         return $this->hasMany(SubjectDayTime::class);
     }
+
+    public function teachers()
+    {
+        return $this->belongsToMany(Teacher::class);
+    }
 }
