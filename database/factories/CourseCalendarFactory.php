@@ -16,8 +16,9 @@ class CourseCalendarFactory extends Factory
      */
     public function definition()
     {
-        $startDate = fake()->dateTimeBetween('next Monday', 'next Monday +7 days');
-        $endDate = fake()->dateTimeBetween($startDate, $startDate->format('Y-m-d H:i:S').' +12 months');
+        $startDate = fake()->dateTimeBetween('today', '+7 days');
+        $endDate = fake()->dateTimeBetween($startDate, $startDate->format('Y-m-d H:i:s').' +12 months');
+
         return [
             'name' => fake()->word().' Calendar',
             'start_date' => $startDate->format('Y-m-d'),
