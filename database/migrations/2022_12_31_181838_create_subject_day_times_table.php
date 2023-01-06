@@ -13,7 +13,7 @@ return new class extends Migration
      */
     public function up()
     {
-        Schema::create('subject_days_times', function (Blueprint $table) {
+        Schema::create('subject_day_times', function (Blueprint $table) {
             $table->id();
             $table->foreignId('subject_id')->constrained('subjects');
             $table->string('day', 255);
@@ -30,6 +30,6 @@ return new class extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('subject_days_times');
+        Schema::dropIfExists('subject_day_times');
     }
 };
