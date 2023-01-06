@@ -6,6 +6,7 @@ use App\Http\Requests\StoreSubjectRequest;
 use App\Http\Resources\SubjectCollection;
 use App\Http\Resources\SubjectResource;
 use App\Models\Subject;
+use App\Models\SubjectDayTime;
 use Illuminate\Http\Request;
 
 class SubjectController extends Controller
@@ -28,7 +29,26 @@ class SubjectController extends Controller
      */
     public function store(StoreSubjectRequest $request)
     {
-        //
+        $subject = new Subject();
+        $subject->name = $request->name;
+        $subject->course_calendar_id = $request->courseCalendarId;
+        $subject->save();
+
+        $subject->teachers()->attach($request->teacherIds);
+
+        foreach ($request->daysTimes as $dayAndTime) {
+            $subjectDayTime = new SubjectDayTime();
+            $subjectDayTime->subject_id = $subject->id;
+            $subjectDayTime->day = $dayAndTime['day'];
+            $subjectDayTime->start_time = $dayAndTime['startTime'];
+            $subjectDayTime->end_time = $dayAndTime['endTime'];
+            $subjectDayTime->save();
+        }
+
+        return response()->json([
+            'message' => 'Saved new Subject successfully',
+            'id' => $subject->id
+        ], 201);
     }
 
     /**

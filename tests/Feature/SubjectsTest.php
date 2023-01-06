@@ -1,5 +1,6 @@
 <?php
 
+use App\Models\CourseCalendar;
 use App\Models\Subject;
 use App\Models\Teacher;
 use App\Models\User;
@@ -10,6 +11,7 @@ beforeEach(function () {
     $this->subjects = Subject::factory()
         ->has(Teacher::factory()->count(1))
         ->count(3)->create();
+    $this->courseCalendar = CourseCalendar::factory()->create();
 });
 
 test('list subjects returns an array of subjects objects', function () {
@@ -29,5 +31,27 @@ test('list subjects returns an array of subjects objects', function () {
 test('empty subject data throws validation error when saving', function () {
     $response = $this->actingAs($this->user)
         ->postJson('/api/subjects')
-        ->assertInvalid(['name', 'teacherId', 'courseCalendarId', 'daysTimes']);
+        ->assertInvalid(['name', 'teacherIds', 'courseCalendarId', 'daysTimes']);
+});
+
+test('Subject, days and times saves to db when valid data provided', function () {
+
+    $teacherIds = array();
+    $teacherIds = $this->subjects->map(function ($subject) {
+        return $subject->teachers()->pluck('teachers.id')->toArray();
+    });
+  
+    $response = $this->actingAs($this->user)
+        ->postJson('/api/subjects', [
+            'name' => 'Test Subject 1', 
+            'courseCalendarId' => $this->courseCalendar->id,
+            'teacherIds' => array_merge(...$teacherIds->toArray()),
+            'daysTimes' => [
+                ['day' => 'monday', 'startTime' => '09:00', 'endTime' => '10:30'],
+                ['day' => 'wednesday', 'startTime' => '13:00', 'endTime' => '15:30'], 
+                ['day' => 'friday', 'startTime' => '09:00', 'endTime' => '10:30'], 
+            ],
+        ])
+        ->assertValid()
+        ->assertCreated();
 });
