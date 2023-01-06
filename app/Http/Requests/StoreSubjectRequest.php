@@ -2,7 +2,9 @@
 
 namespace App\Http\Requests;
 
+use App\Models\Teacher;
 use Illuminate\Foundation\Http\FormRequest;
+use Illuminate\Validation\Rule;
 
 class StoreSubjectRequest extends FormRequest
 {
@@ -23,14 +25,17 @@ class StoreSubjectRequest extends FormRequest
      */
     public function rules()
     {
+
+        $existingTeacherIds = Teacher::pluck('id')->toArray();
         return [
             'name' => 'required',
-            'teacherId' => 'required|exists:teachers,id',
+            'teacherIds' => ['required','array'],
+            'teacherIds.*' => Rule::in($existingTeacherIds),
             'courseCalendarId' => 'required|exists:course_calendars,id',
-            'daysTimes' => 'required|array:startTime,endTime|min:1',
-            'daysTimes.*.day' => 'required_with_all:daysTimes.*.startTime, daysTimes.*.endTime',
-            'daysTimes.*.startTime' => 'required_with_all:daysTimes.*.day, daysTimes.*.endTime',
-            'daysTimes.*.endTime' => 'required_with_all:daysTimes.*.day, daysTimes.*.startTime',
+            'daysTimes' => 'required|array|min:1',
+            'daysTimes.*.day' => 'required',
+            'daysTimes.*.startTime' => 'required',
+            'daysTimes.*.endTime' => 'required',
         ];
     }
 }
