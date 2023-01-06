@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Http\Requests\StoreSubjectRequest;
+use App\Http\Resources\SubjectCollection;
 use App\Http\Resources\SubjectResource;
 use App\Models\Subject;
 use Illuminate\Http\Request;
@@ -16,9 +17,7 @@ class SubjectController extends Controller
      */
     public function index()
     {
-        return response()->json(
-            SubjectResource::collection(Subject::all())
-        , 200);
+        return new SubjectCollection(Subject::all());
     }
 
     /**
