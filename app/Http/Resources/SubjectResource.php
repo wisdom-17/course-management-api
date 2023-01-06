@@ -3,6 +3,7 @@
 namespace App\Http\Resources;
 
 use Illuminate\Http\Resources\Json\JsonResource;
+use App\Http\Resources\TeacherCollection;
 
 class SubjectResource extends JsonResource
 {
@@ -17,9 +18,11 @@ class SubjectResource extends JsonResource
         return [            
             'id' => $this->id,
             'name' => $this->name,
+            'teachers' => new TeacherCollection($this->teachers),
             'createdAt' => $this->created_at,
             'updatedAt' => $this->updated_at,
             'deletedAt' => $this->deleted_at
         ];
+
     }
 }
