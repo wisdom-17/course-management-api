@@ -10,7 +10,7 @@ beforeEach(function () {
 });
 
 test('list teachers returns an array of teacher objects', function () {
-    $response = $this->actingAs($this->user)
+    $this->actingAs($this->user)
         ->get('/api/teachers')
         ->assertJson(fn (AssertableJson $json) => 
             $json->has(3)
@@ -19,13 +19,13 @@ test('list teachers returns an array of teacher objects', function () {
 });
 
 test('empty teacher data throws validation error when saving', function () {
-    $response = $this->actingAs($this->user)
+    $this->actingAs($this->user)
         ->postJson('/api/teachers')
         ->assertInvalid(['name', 'hourlyRate']);
 });
 
-test('teacher saves successfully to db when valid teacher data provided', function () {
-    $response = $this->actingAs($this->user)
+test('teacher saves to db when valid teacher data provided', function () {
+    $this->actingAs($this->user)
         ->postJson('/api/teachers', ['name' => 'Test Teacher 1', 'hourlyRate' => 25.00])
         ->assertValid()
         ->assertCreated();
@@ -33,7 +33,7 @@ test('teacher saves successfully to db when valid teacher data provided', functi
 
 test('existing teacher updates successfully when valid teacher data provided', function () {
     $teacherId = $this->teachers->first()->id;
-    $response = $this->actingAs($this->user)
+    $this->actingAs($this->user)
         ->patchJson('/api/teachers/'.$teacherId, ['name' => 'Updated Teacher Name', 'hourlyRate' => 25.00])
         ->assertValid()
         ->assertOk();
