@@ -14,6 +14,9 @@ beforeEach(function () {
         ->has(SubjectDayTime::factory()->count(1))
     ->count(3)->create();
     $this->courseCalendars = CourseCalendar::factory()->count(2)->create();
+    $this->teacherIds = array_merge(...$this->subjects->map(function ($subject) {
+        return $subject->teachers()->pluck('teachers.id')->toArray();
+    })->toArray());
 });
 
 test('list subjects returns an array of subjects objects', function () {
@@ -40,18 +43,12 @@ test('empty subject data throws validation error when saving', function () {
         ->assertInvalid(['name', 'teacherIds', 'courseCalendarId', 'daysTimes']);
 });
 
-test('Subject, days and times saves to db when valid data provided', function () {
-
-    $teacherIds = array();
-    $teacherIds = $this->subjects->map(function ($subject) {
-        return $subject->teachers()->pluck('teachers.id')->toArray();
-    });
-  
+test('Subject, days and times saves to db when valid data provided', function () {  
    $this->actingAs($this->user)
         ->postJson('/api/subjects', [
             'name' => 'Test Subject 1', 
             'courseCalendarId' => $this->courseCalendars->first()->id,
-            'teacherIds' => array_merge(...$teacherIds->toArray()),
+            'teacherIds' => $this->teacherIds,
             'daysTimes' => [
                 ['day' => 'monday', 'startTime' => '09:00', 'endTime' => '10:30'],
                 ['day' => 'wednesday', 'startTime' => '13:00', 'endTime' => '15:30'], 
@@ -67,7 +64,7 @@ test('Subject, days and times saves to db when valid data provided', function ()
 //     $this->actingAs($this->user)
 //         ->patchJson('/api/subjects/'.$subjectId, [
 //             'name' => 'Updated Subject Name',
-//             'courseCalendarId' => $this->courseCalendar->id,
+//             'courseCalendarId' => $this->courseCalendars->last()->id,
 //             // 'teacherIds' => array_merge(...$teacherIds->toArray()),
 //             'daysTimes' => [
 //                 ['day' => 'monday', 'startTime' => '09:00', 'endTime' => '10:30'],
