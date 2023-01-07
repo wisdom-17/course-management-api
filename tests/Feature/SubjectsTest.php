@@ -13,7 +13,7 @@ beforeEach(function () {
         ->has(Teacher::factory()->count(1))
         ->has(SubjectDayTime::factory()->count(1))
     ->count(3)->create();
-    $this->courseCalendar = CourseCalendar::factory()->create();
+    $this->courseCalendars = CourseCalendar::factory()->count(2)->create();
 });
 
 test('list subjects returns an array of subjects objects', function () {
@@ -50,7 +50,7 @@ test('Subject, days and times saves to db when valid data provided', function ()
    $this->actingAs($this->user)
         ->postJson('/api/subjects', [
             'name' => 'Test Subject 1', 
-            'courseCalendarId' => $this->courseCalendar->id,
+            'courseCalendarId' => $this->courseCalendars->first()->id,
             'teacherIds' => array_merge(...$teacherIds->toArray()),
             'daysTimes' => [
                 ['day' => 'monday', 'startTime' => '09:00', 'endTime' => '10:30'],
@@ -62,19 +62,19 @@ test('Subject, days and times saves to db when valid data provided', function ()
         ->assertCreated();
 });
 
-test('existing subject updates when valid subject data provided', function () {
-    // $subjectId = $this->subjects->first()->id;
-    // $this->actingAs($this->user)
-    //     ->patchJson('/api/subjects/'.$subjectId, [
-    //         'name' => 'Updated Subject Name',
-    //         'courseCalendarId' => $this->courseCalendar->id,
-    //         // 'teacherIds' => array_merge(...$teacherIds->toArray()),
-    //         'daysTimes' => [
-    //             ['day' => 'monday', 'startTime' => '09:00', 'endTime' => '10:30'],
-    //             ['day' => 'wednesday', 'startTime' => '13:00', 'endTime' => '15:30'], 
-    //             ['day' => 'friday', 'startTime' => '09:00', 'endTime' => '10:30'], 
-    //         ],
-    //     ])
-    //     ->assertValid()
-    //     ->assertOk();
-});
+// test('existing subject updates when valid subject data provided', function () {
+//     $subjectId = $this->subjects->first()->id;
+//     $this->actingAs($this->user)
+//         ->patchJson('/api/subjects/'.$subjectId, [
+//             'name' => 'Updated Subject Name',
+//             'courseCalendarId' => $this->courseCalendar->id,
+//             // 'teacherIds' => array_merge(...$teacherIds->toArray()),
+//             'daysTimes' => [
+//                 ['day' => 'monday', 'startTime' => '09:00', 'endTime' => '10:30'],
+//                 ['day' => 'wednesday', 'startTime' => '13:00', 'endTime' => '15:30'], 
+//                 ['day' => 'friday', 'startTime' => '09:00', 'endTime' => '10:30'], 
+//             ],
+//         ])
+//         ->assertValid()
+//         ->assertOk();
+// });
