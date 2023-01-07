@@ -9,7 +9,7 @@ class Subject extends Model
 {
     use HasFactory;
 
-    public function subjectDaysTimes()
+    public function subjectDayTimes()
     {
         return $this->hasMany(SubjectDayTime::class);
     }
