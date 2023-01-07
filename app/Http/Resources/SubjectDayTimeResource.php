@@ -3,9 +3,8 @@
 namespace App\Http\Resources;
 
 use Illuminate\Http\Resources\Json\JsonResource;
-use App\Http\Resources\TeacherCollection;
 
-class SubjectResource extends JsonResource
+class SubjectDayTimeResource extends JsonResource
 {
     /**
      * Transform the resource into an array.
@@ -15,15 +14,14 @@ class SubjectResource extends JsonResource
      */
     public function toArray($request)
     {
-        return [            
+        return [
             'id' => $this->id,
-            'name' => $this->name,
-            'teachers' => new TeacherCollection($this->teachers),
-            'daysAndTimes' => new SubjectDayTimeCollection($this->subjectDayTimes),
+            'subjectId' => $this->subject_id,
+            'day' => $this->day,
+            'startTime' => $this->start_time,
+            'endTime' => $this->end_time,
             'createdAt' => $this->created_at,
-            'updatedAt' => $this->updated_at,
-            'deletedAt' => $this->deleted_at
+            'updatedAt' => $this->updated_at
         ];
-
     }
 }
