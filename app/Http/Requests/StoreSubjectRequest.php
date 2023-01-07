@@ -29,7 +29,7 @@ class StoreSubjectRequest extends FormRequest
         $existingTeacherIds = Teacher::pluck('id')->toArray();
         return [
             'name' => 'required',
-            'teacherIds' => ['required','array'],
+            'teacherIds' => 'required|array',
             'teacherIds.*' => Rule::in($existingTeacherIds),
             'courseCalendarId' => 'required|exists:course_calendars,id',
             'daysTimes' => 'required|array|min:1',
