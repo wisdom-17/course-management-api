@@ -15,7 +15,7 @@ beforeEach(function () {
 });
 
 test('list subjects returns an array of subjects objects', function () {
-    $response = $this->actingAs($this->user)
+    $this->actingAs($this->user)
         ->get('/api/subjects')
         ->assertJson(fn (AssertableJson $json) => 
             $json->has('subjects', 3, fn ($json) =>
@@ -29,7 +29,7 @@ test('list subjects returns an array of subjects objects', function () {
 });
 
 test('empty subject data throws validation error when saving', function () {
-    $response = $this->actingAs($this->user)
+    $this->actingAs($this->user)
         ->postJson('/api/subjects')
         ->assertInvalid(['name', 'teacherIds', 'courseCalendarId', 'daysTimes']);
 });
@@ -41,7 +41,7 @@ test('Subject, days and times saves to db when valid data provided', function ()
         return $subject->teachers()->pluck('teachers.id')->toArray();
     });
   
-    $response = $this->actingAs($this->user)
+   $this->actingAs($this->user)
         ->postJson('/api/subjects', [
             'name' => 'Test Subject 1', 
             'courseCalendarId' => $this->courseCalendar->id,
