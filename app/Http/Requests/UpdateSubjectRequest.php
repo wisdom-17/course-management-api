@@ -2,7 +2,10 @@
 
 namespace App\Http\Requests;
 
+use App\Models\Teacher;
 use Illuminate\Foundation\Http\FormRequest;
+use Illuminate\Validation\Rule;
+
 
 class UpdateSubjectRequest extends FormRequest
 {
@@ -13,7 +16,7 @@ class UpdateSubjectRequest extends FormRequest
      */
     public function authorize()
     {
-        return false;
+        return true;
     }
 
     /**
@@ -23,8 +26,16 @@ class UpdateSubjectRequest extends FormRequest
      */
     public function rules()
     {
+        $existingTeacherIds = Teacher::pluck('id')->toArray();
         return [
-            //
+            'name' => 'required',
+            'teacherIds' => 'required|array',
+            'teacherIds.*' => Rule::in($existingTeacherIds),
+            'courseCalendarId' => 'required|exists:course_calendars,id',
+            'daysTimes' => 'required|array|min:1',
+            'daysTimes.*.day' => 'required',
+            'daysTimes.*.startTime' => 'required',
+            'daysTimes.*.endTime' => 'required',
         ];
     }
 }
