@@ -59,19 +59,17 @@ test('Subject, days and times saves to db when valid data provided', function ()
         ->assertCreated();
 });
 
-// test('existing subject updates when valid subject data provided', function () {
-//     $subjectId = $this->subjects->first()->id;
-//     $this->actingAs($this->user)
-//         ->patchJson('/api/subjects/'.$subjectId, [
-//             'name' => 'Updated Subject Name',
-//             'courseCalendarId' => $this->courseCalendars->last()->id,
-//             // 'teacherIds' => array_merge(...$teacherIds->toArray()),
-//             'daysTimes' => [
-//                 ['day' => 'monday', 'startTime' => '09:00', 'endTime' => '10:30'],
-//                 ['day' => 'wednesday', 'startTime' => '13:00', 'endTime' => '15:30'], 
-//                 ['day' => 'friday', 'startTime' => '09:00', 'endTime' => '10:30'], 
-//             ],
-//         ])
-//         ->assertValid()
-//         ->assertOk();
-// });
+test('existing subject updates when valid subject data provided', function () {
+    $subjectId = $this->subjects->first()->id;
+    $this->actingAs($this->user)
+        ->patchJson('/api/subjects/'.$subjectId, [
+            'name' => 'Updated Subject Name',
+            'courseCalendarId' => $this->courseCalendars->last()->id,
+            'teacherIds' => [$this->teacherIds[2]],
+            'daysTimes' => [
+                ['day' => 'friday', 'startTime' => '09:00', 'endTime' => '10:30'], 
+            ],
+        ])
+        ->assertValid()
+        ->assertOk();
+});

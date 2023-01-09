@@ -3,10 +3,11 @@
 namespace App\Http\Controllers;
 
 use App\Http\Requests\StoreSubjectRequest;
+use App\Http\Requests\UpdateSubjectRequest;
 use App\Http\Resources\SubjectCollection;
 use App\Models\Subject;
 use App\Models\SubjectDayTime;
-use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
 
 class SubjectController extends Controller
 {
@@ -29,20 +30,22 @@ class SubjectController extends Controller
     public function store(StoreSubjectRequest $request)
     {
         $subject = new Subject();
-        $subject->name = $request->name;
-        $subject->course_calendar_id = $request->courseCalendarId;
-        $subject->save();
+        DB::transaction(function () use ($request, $subject) {
+            $subject->name = $request->name;
+            $subject->course_calendar_id = $request->courseCalendarId;
+            $subject->save();
 
-        $subject->teachers()->attach($request->teacherIds);
+            $subject->teachers()->attach($request->teacherIds);
 
-        foreach ($request->daysTimes as $dayAndTime) {
-            $subjectDayTime = new SubjectDayTime();
-            $subjectDayTime->subject_id = $subject->id;
-            $subjectDayTime->day = $dayAndTime['day'];
-            $subjectDayTime->start_time = $dayAndTime['startTime'];
-            $subjectDayTime->end_time = $dayAndTime['endTime'];
-            $subjectDayTime->save();
-        }
+            foreach ($request->daysTimes as $dayAndTime) {
+                $subjectDayTime = new SubjectDayTime();
+                $subjectDayTime->subject()->associate($subject);
+                $subjectDayTime->day = $dayAndTime['day'];
+                $subjectDayTime->start_time = $dayAndTime['startTime'];
+                $subjectDayTime->end_time = $dayAndTime['endTime'];
+                $subjectDayTime->save();
+            }
+        });
 
         return response()->json([
             'message' => 'Saved new Subject successfully',
@@ -65,12 +68,33 @@ class SubjectController extends Controller
      * Update the specified resource in storage.
      *
      * @param  \Illuminate\Http\Request  $request
-     * @param  int  $id
+     * @param  Subject  $subject
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, $id)
+    public function update(UpdateSubjectRequest $request, Subject $subject)
     {
-        //
+        DB::transaction(function () use ($subject, $request) {
+            $subject->name = $request->name;
+            $subject->course_calendar_id = $request->courseCalendarId;
+            $subject->save();
+    
+            $subject->teachers()->sync($request->teacherIds);
+    
+            $subject->subjectDayTimes()->delete();
+            foreach ($request->daysTimes as $dayAndTime) {
+                $subjectDayTime = new SubjectDayTime();
+                $subjectDayTime->subject()->associate($subject);
+                $subjectDayTime->day = $dayAndTime['day'];
+                $subjectDayTime->start_time = $dayAndTime['startTime'];
+                $subjectDayTime->end_time = $dayAndTime['endTime'];
+                $subjectDayTime->save();
+            }
+        });
+
+        return response()->json([
+            'message' => 'Updated subject successfully',
+            'id' => $subject->id
+        ], 200);
     }
 
     /**
