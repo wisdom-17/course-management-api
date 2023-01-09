@@ -8,4 +8,9 @@ use Illuminate\Database\Eloquent\Model;
 class SubjectDayTime extends Model
 {
     use HasFactory;
+
+    public function subject()
+    {
+        return $this->belongsTo(Subject::class);
+    }
 }
