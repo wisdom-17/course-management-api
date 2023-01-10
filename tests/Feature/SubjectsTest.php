@@ -73,3 +73,12 @@ test('existing subject updates when valid subject data provided', function () {
         ->assertValid()
         ->assertOk();
 });
+
+test('Subject is soft deleted', function () {
+    $subjectId = $this->subjects->first()->id;
+    $this->actingAs($this->user)
+        ->deleteJson('/api/subjects/'.$subjectId)
+        ->assertOk();
+    
+    $this->assertSoftDeleted($this->subjects->first());
+});

@@ -100,11 +100,17 @@ class SubjectController extends Controller
     /**
      * Remove the specified resource from storage.
      *
-     * @param  int  $id
+     * @param  \App\Models\Subject  $subject
      * @return \Illuminate\Http\Response
      */
-    public function destroy($id)
+    public function destroy(Subject $subject)
     {
-        //
+        $subject->subjectDayTimes()->delete();
+        $subject->teachers()->sync([]);
+        $subject->delete(); // soft delete
+
+        return response()->json([
+            'Deleted subject successfully'
+        ], 200);
     }
 }
