@@ -16,7 +16,9 @@ return new class extends Migration
         Schema::create('course_dates', function (Blueprint $table) {
             $table->id();
             $table->foreignId('course_calendar_id')->constrained();
+            $table->foreignId('semester_id')->nullable()->constrained();
             $table->foreignId('date_type_id')->constrained('date_types');
+            $table->string('name', 255);
             $table->date('start_date');
             $table->date('end_date');
             $table->softDeletes();
