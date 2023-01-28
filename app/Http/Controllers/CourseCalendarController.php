@@ -35,8 +35,11 @@ class CourseCalendarController extends Controller
         $courseCalendar->name = $request->name;
         $courseCalendar->start_date = Carbon::parse($request->startDate)->format('Y-m-d');
         $courseCalendar->end_date = Carbon::parse($request->endDate)->format('Y-m-d');
-
         $courseCalendar->save();
+
+        if (count($request->semesters) > 0) {    
+            $courseCalendar->semesters()->createMany($request->semesters);
+        }
 
         return response()->json([
             'message' => 'Saved new Course Calendar successfully',
