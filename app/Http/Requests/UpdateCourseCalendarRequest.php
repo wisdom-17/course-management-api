@@ -24,10 +24,11 @@ class UpdateCourseCalendarRequest extends FormRequest
     public function rules()
     {
         return [
-            'id' => 'required|exists:course_calendars',
             'name' => 'required|max:255',
             'startDate' => 'required|date',
             'endDate' => 'required|date',
+            'semesters' => 'array',
+            'semesters.*.name' => 'max:255'
         ];
     }
 }

@@ -9,7 +9,7 @@ beforeEach(function () {
     $this->courseCalendars = CourseCalendar::factory()->count(3)->create();
 });
 
-test('list course calendars returns an array of course calendar objects', function () {
+test('List course calendars returns an array of course calendar objects', function () {
     $this->actingAs($this->user)
         ->get('/api/course-calendars')
         ->assertJson(fn (AssertableJson $json) => 
@@ -18,7 +18,7 @@ test('list course calendars returns an array of course calendar objects', functi
         ->assertStatus(200);
 });
 
-test('empty course calendar data throws validation error when saving', function () {
+test('Empty course calendar data throws validation error when saving', function () {
     $this->actingAs($this->user)
         ->postJson('/api/course-calendars')
         ->assertInvalid(['name', 'startDate', 'endDate']);
@@ -42,3 +42,15 @@ test('Course Calendar and Semesters save to db when valid data provided', functi
     $this->assertDatabaseCount('course_calendars', 4);
 
  });
+
+ test('Existing Course Calendar updates when valid data provided', function () {
+    $courseCalendarId = $this->courseCalendars->first()->id;
+    $this->actingAs($this->user)
+        ->patchJson('/api/course-calendars/'.$courseCalendarId, [
+            'name' => 'Updated Course Calendar Name',
+            'startDate' => '2023-02-01',
+            'endDate' => '2023-04-01'
+        ])
+        ->assertValid()
+        ->assertOk();
+});

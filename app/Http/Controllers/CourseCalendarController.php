@@ -72,6 +72,10 @@ class CourseCalendarController extends Controller
         $courseCalendar->end_date = Carbon::parse($request->endDate)->format('Y-m-d');
         $courseCalendar->save();
 
+        // TODO: handle semesters here?
+        // Will this be edited on the same page/request as semesters? 
+        // Validation rules? What if there a terms belonging to the semester?
+
         return response()->json([
             'message' => 'Updated Course successfully',
             'id' => $courseCalendar->id
