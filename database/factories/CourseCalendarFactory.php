@@ -20,7 +20,7 @@ class CourseCalendarFactory extends Factory
         $endDate = fake()->dateTimeBetween($startDate, $startDate->format('Y-m-d H:i:s').' +12 months');
 
         return [
-            'name' => fake()->word().' Calendar',
+            'name' => fake()->word().' Course Calendar',
             'start_date' => $startDate->format('Y-m-d'),
             'end_date' => $endDate->format('Y-m-d'),
         ];
