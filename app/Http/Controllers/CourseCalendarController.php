@@ -91,6 +91,7 @@ class CourseCalendarController extends Controller
      */
     public function destroy(DestroyCourseRequest $request)
     {
+        // TODO: handle related semesters, terms and subjects
         foreach ($request->courseCalendarIds as $id) {
             $course = CourseCalendar::find($id);
             $course->delete(); // soft delete

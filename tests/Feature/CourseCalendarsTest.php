@@ -43,7 +43,7 @@ test('Course Calendar and Semesters save to db when valid data provided', functi
 
  });
 
- test('Existing Course Calendar updates when valid data provided', function () {
+test('Existing Course Calendar updates when valid data provided', function () {
     $courseCalendarId = $this->courseCalendars->first()->id;
     $this->actingAs($this->user)
         ->patchJson('/api/course-calendars/'.$courseCalendarId, [
@@ -53,4 +53,18 @@ test('Course Calendar and Semesters save to db when valid data provided', functi
         ])
         ->assertValid()
         ->assertOk();
+});
+
+test('Course Calendars are soft deleted', function () {
+    $courseCalendarIdA = $this->courseCalendars->first()->id;
+    $courseCalendarIdB = $this->courseCalendars->last()->id;
+
+    $this->actingAs($this->user)
+        ->patchJson('/api/course-calendars', [
+            'courseCalendarIds' => [$courseCalendarIdA, $courseCalendarIdB]
+        ])
+        ->assertOk();
+    
+    $this->assertSoftDeleted($this->courseCalendars->first());
+    $this->assertSoftDeleted($this->courseCalendars->last());
 });
