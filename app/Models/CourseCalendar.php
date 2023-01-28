@@ -12,10 +12,18 @@ class CourseCalendar extends Model
     use SoftDeletes;
 
     /**
-     * Get dates for the course
+     * Get dates for the Course Calendar
      */
     public function courseDates()
     {
         return $this->hasMany(CourseDate::class);
+    }
+
+    /**
+     * Get Semesters for the Course Calendar
+     */
+    public function semesters()
+    {
+        return $this->hasMany(Semesters::class);
     }
 }
