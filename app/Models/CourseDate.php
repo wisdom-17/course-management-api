@@ -16,4 +16,12 @@ class CourseDate extends Model
     {
         return $this->belongsTo(DateType::class, 'type_id');
     }
+
+    /**
+     * Get the semester for the course date
+     */
+    public function semester()
+    {
+        return $this->belongsTo(Semester::class);
+    }
 }

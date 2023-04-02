@@ -23,4 +23,13 @@ class Semesters extends Model
     {
         return $this->belongsTo(CourseCalendar::class);
     }
+
+    /**
+     * Get the course dates for the Semester
+     */
+    public function courseDates()
+    {
+        return $this->hasMany(CourseDate::class);
+    }
+
 }
