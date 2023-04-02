@@ -7,7 +7,10 @@ use App\Http\Requests\StoreCourseCalendarRequest;
 use App\Http\Requests\UpdateCourseCalendarRequest;
 use App\Http\Resources\CourseCalendarResource;
 use App\Models\CourseCalendar;
+use App\Models\DateType;
 use Carbon\Carbon;
+use Illuminate\Support\Facades\Log;
+use Illuminate\Support\Str;
 
 class CourseCalendarController extends Controller
 {
@@ -37,8 +40,42 @@ class CourseCalendarController extends Controller
         $courseCalendar->end_date = Carbon::parse($request->endDate)->format('Y-m-d');
         $courseCalendar->save();
 
-        if (count($request->semesters) > 0) {    
-            $courseCalendar->semesters()->createMany($request->semesters);
+        // Structure terms and holidays by semester
+        $semesterTermsAndHolidays = [];
+        foreach ($request->terms as $term) {
+            if (array_key_exists('semester', $term)) {
+                $semesterTermsAndHolidays[$term['semester']]['terms'][] = $term;
+            }
+        }
+
+        foreach ($request->holidays as $holiday) {
+            if (array_key_exists('semester', $holiday)) {
+                $semesterTermsAndHolidays[$holiday['semester']]['holidays'][] = $holiday;
+            }
+        }
+
+        // get terms and holidays not belonging to a semester
+        $nonSemesterTerms = array_filter($request->terms, fn($term) => array_key_exists('semester', $term) === false);
+        $nonSemesterHolidays = array_filter($request->holidays, fn($holiday) => array_key_exists('semester', $holiday) === false);
+
+        // todo: handle terms and holidays not belonging to a semester
+
+        foreach ($semesterTermsAndHolidays as $semesterName => $semesterData) {
+            $semester = $courseCalendar->semesters()->create([
+                'name' => $semesterName
+            ]);
+            foreach ($semesterData as $type => $dates) {
+                $dateType = DateType::where('type', Str::singular($type))->first();
+                foreach ($dates as $date) {
+                    $semester->courseDates()->create([
+                        'name' => $date['name'],
+                        'start_date' => Carbon::parse($date['startDate'])->format('Y-m-d'),
+                        'end_date' => Carbon::parse($date['endDate'])->format('Y-m-d'),
+                        'date_type_id' => $dateType->id,
+                        'course_calendar_id' => $courseCalendar->id
+                    ]);
+                }
+            }
         }
 
         return response()->json([

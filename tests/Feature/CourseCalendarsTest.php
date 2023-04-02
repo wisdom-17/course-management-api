@@ -2,11 +2,13 @@
 
 use App\Models\User;
 use App\Models\CourseCalendar;
+use Database\Seeders\DateTypeSeeder;
 use Illuminate\Testing\Fluent\AssertableJson;
 
 beforeEach(function () {
     $this->user = User::factory()->create();
     $this->courseCalendars = CourseCalendar::factory()->count(3)->create();
+    $this->seed(DateTypeSeeder::class);
 });
 
 test('List course calendars returns an array of course calendar objects', function () {
@@ -24,22 +26,33 @@ test('Empty course calendar data throws validation error when saving', function 
         ->assertInvalid(['name', 'startDate', 'endDate']);
 });
 
-test('Course Calendar and Semesters save to db when valid data provided', function () {  
+test('Course Calendar, Semesters, and course dates save to db when valid data provided', function () {  
     $this->actingAs($this->user)
          ->postJson('/api/course-calendars', [
-             'name' => 'Test Course Calendar 1', 
-             'startDate' => '2022-01-30',
-             'endDate' => '2022-05-30',
-             'semesters' => [
-                 ['name' => 'Semester 1'],
-                 ['name' => 'Semester 2'],
-                 ['name' => 'Semester 3'],
-             ],
+            'name' => 'Test Course Calendar 1', 
+            'startDate' => '2022-01-30',
+            'endDate' => '2022-05-30',
+            'semesters' => [
+                ['name' => 'Semester 1'],
+                ['name' => 'Semester 2'],
+                ['name' => 'Semester 3'],
+            ],
+            'terms' => [
+                ['name' => 'Term 1', 'startDate' => '2022-01-30', 'endDate' => '2022-02-13', 'semester' => 'Semester 1'],
+                ['name' => 'Term 2', 'startDate' => '2022-03-01', 'endDate' => '2022-04-30', 'semester' => 'Semester 2'],
+                ['name' => 'Term 3', 'startDate' => '2022-05-01', 'endDate' => '2022-05-30', 'semester' => 'Semester 3'],
+            ],
+            'holidays' => [
+                ['name' => 'Holiday 1', 'startDate' => '2022-06-01', 'endDate' => '2022-06-30', 'semester' => 'Semester 1'],
+                ['name' => 'Holiday 2', 'startDate' => '2022-07-01', 'endDate' => '2022-07-30', 'semester' => 'Semester 2'],
+                ['name' => 'Holiday 3', 'startDate' => '2022-08-01', 'endDate' => '2022-08-30', 'semester' => 'Semester 3']
+            ],
          ])
          ->assertValid()
          ->assertCreated();
     $this->assertDatabaseCount('semesters', 3);
-    $this->assertDatabaseCount('course_calendars', 4);
+    $this->assertDatabaseCount('course_calendars', 4); // 4 including 3 from beforeEach
+    $this->assertDatabaseCount('course_dates', 6);
 
  });
 
