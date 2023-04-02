@@ -24,6 +24,6 @@ class CourseCalendar extends Model
      */
     public function semesters()
     {
-        return $this->hasMany(Semesters::class);
+        return $this->hasMany(Semester::class);
     }
 }
