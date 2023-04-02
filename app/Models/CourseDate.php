@@ -10,6 +10,13 @@ class CourseDate extends Model
     use HasFactory;
 
     /**
+     * The attributes that are mass assignable.
+     *
+     * @var array
+     */
+    protected $fillable = ['name', 'semester_id', 'date_type_id', 'course_calendar_id', 'start_date', 'end_date'];
+
+    /**
      * Get the date type
      */
     public function dateType()
