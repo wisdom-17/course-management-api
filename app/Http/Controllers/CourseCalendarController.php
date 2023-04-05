@@ -58,7 +58,25 @@ class CourseCalendarController extends Controller
         $nonSemesterTerms = array_filter($request->terms, fn($term) => array_key_exists('semester', $term) === false);
         $nonSemesterHolidays = array_filter($request->holidays, fn($holiday) => array_key_exists('semester', $holiday) === false);
 
-        // todo: handle terms and holidays not belonging to a semester
+        // handle terms and holidays not belonging to a semester
+        $nonSemesterDates = [
+            'terms' => $nonSemesterTerms,
+            'holidays' => $nonSemesterHolidays
+        ];
+
+        // save non-semester terms and holidays
+        foreach($nonSemesterDates as $type => $dates) {
+            $dateType = DateType::where('type', Str::singular($type))->first();
+            foreach ($dates as $date) {
+                $courseCalendar->courseDates()->create([
+                    'name' => $date['name'],
+                    'start_date' => Carbon::parse($date['startDate'])->format('Y-m-d'),
+                    'end_date' => Carbon::parse($date['endDate'])->format('Y-m-d'),
+                    'date_type_id' => $dateType->id,
+                    'course_calendar_id' => $courseCalendar->id
+                ]);
+            }
+        }
 
         foreach ($semesterTermsAndHolidays as $semesterName => $semesterData) {
             $semester = $courseCalendar->semesters()->create([

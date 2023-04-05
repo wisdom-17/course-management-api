@@ -31,7 +31,7 @@ test('Course Calendar, Semesters, and course dates save to db when valid data pr
          ->postJson('/api/course-calendars', [
             'name' => 'Test Course Calendar 1', 
             'startDate' => '2022-01-30',
-            'endDate' => '2022-05-30',
+            'endDate' => '2022-08-30',
             'semesters' => [
                 ['name' => 'Semester 1'],
                 ['name' => 'Semester 2'],
@@ -39,20 +39,23 @@ test('Course Calendar, Semesters, and course dates save to db when valid data pr
             ],
             'terms' => [
                 ['name' => 'Term 1', 'startDate' => '2022-01-30', 'endDate' => '2022-02-13', 'semester' => 'Semester 1'],
-                ['name' => 'Term 2', 'startDate' => '2022-03-01', 'endDate' => '2022-04-30', 'semester' => 'Semester 2'],
+                ['name' => 'Term 2', 'startDate' => '2022-03-01', 'endDate' => '2022-03-30', 'semester' => 'Semester 2'],
                 ['name' => 'Term 3', 'startDate' => '2022-05-01', 'endDate' => '2022-05-30', 'semester' => 'Semester 3'],
+                ['name' => 'Term 4', 'startDate' => '2022-05-01', 'endDate' => '2022-05-30'],
+                ['name' => 'Term 5', 'startDate' => '2022-06-01', 'endDate' => '2022-06-30'],
             ],
             'holidays' => [
                 ['name' => 'Holiday 1', 'startDate' => '2022-06-01', 'endDate' => '2022-06-30', 'semester' => 'Semester 1'],
                 ['name' => 'Holiday 2', 'startDate' => '2022-07-01', 'endDate' => '2022-07-30', 'semester' => 'Semester 2'],
-                ['name' => 'Holiday 3', 'startDate' => '2022-08-01', 'endDate' => '2022-08-30', 'semester' => 'Semester 3']
+                ['name' => 'Holiday 3', 'startDate' => '2022-08-01', 'endDate' => '2022-08-30', 'semester' => 'Semester 3'],
+                ['name' => 'Holiday 4', 'startDate' => '2022-04-01', 'endDate' => '2022-04-30']
             ],
          ])
          ->assertValid()
          ->assertCreated();
     $this->assertDatabaseCount('semesters', 3);
     $this->assertDatabaseCount('course_calendars', 4); // 4 including 3 from beforeEach
-    $this->assertDatabaseCount('course_dates', 6);
+    $this->assertDatabaseCount('course_dates', 9);
 
  });
 
