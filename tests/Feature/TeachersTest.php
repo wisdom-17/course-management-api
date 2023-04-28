@@ -13,7 +13,14 @@ test('list teachers returns an array of teacher objects', function () {
     $this->actingAs($this->user)
         ->get('/api/teachers')
         ->assertJson(fn (AssertableJson $json) => 
-            $json->has(3)
+            $json->has('meta')
+            ->has('links')
+            ->has('teachers', 3, fn ($json) => 
+                $json->where('id', $this->teachers->first()->id)
+                ->where('name', $this->teachers->first()->name)
+                ->where('hourlyRate', strval($this->teachers->first()->hourly_rate))
+                ->etc()
+            )
         )
         ->assertStatus(200);
 });
