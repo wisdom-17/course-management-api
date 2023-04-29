@@ -38,4 +38,13 @@ class StoreSubjectRequest extends FormRequest
             'daysTimes.*.endTime' => 'required',
         ];
     }
+
+    public function messages()
+    {
+        return [
+            'daysTimes.*.day.required' => 'Please specify at least one day',
+            'daysTimes.*.startTime.required' => 'Please specify a start time',
+            'daysTimes.*.endTime.required' => 'Plesae specify an end time',
+        ];
+    }
 }
