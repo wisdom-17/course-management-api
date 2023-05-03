@@ -13,7 +13,7 @@ processes = []
 
 [env]
   APP_ENV = "production"
-  LOG_CHANNEL = "stderr"
+  LOG_CHANNEL = "daily"
   LOG_LEVEL = "info"
   LOG_STDERR_FORMATTER = "Monolog\\Formatter\\JsonFormatter"
   APP_URL = "api.saeedbhuta.fly.dev"
