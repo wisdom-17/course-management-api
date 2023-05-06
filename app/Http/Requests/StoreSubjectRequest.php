@@ -34,8 +34,8 @@ class StoreSubjectRequest extends FormRequest
             'courseCalendarId' => 'required|exists:course_calendars,id',
             'daysTimes' => 'required|array|min:1',
             'daysTimes.*.day' => 'required',
-            'daysTimes.*.startTime' => 'required',
-            'daysTimes.*.endTime' => 'required',
+            'daysTimes.*.startTime' => 'required|date_format:H:i',
+            'daysTimes.*.endTime' => 'required|date_format:H:i',
         ];
     }
 
