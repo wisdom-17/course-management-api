@@ -33,6 +33,9 @@ Route::middleware(['auth:sanctum'])->group(function () {
 
     Route::get('/users/auth', AuthController::class);
 
+    // Get all teachers without pagination (used to populate teacher dropdowns)
+    Route::get('/teachers/all', [TeacherController::class, 'all'])->name('teachers.all');
+
     // - defined outside of apiResources because we want to
     // delete multiple courses using this endpoint
     // 
@@ -49,5 +52,7 @@ Route::middleware(['auth:sanctum'])->group(function () {
         'teachers' => TeacherController::class,
         'subjects' => SubjectController::class
     ]);
+
+
     
 });

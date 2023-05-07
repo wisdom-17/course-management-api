@@ -82,4 +82,9 @@ class TeacherController extends Controller
             'Deleted Teacher successfully'
         ], 200);
     }
+
+    public function all()
+    {
+        return new TeacherCollection(Teacher::all());
+    }
 }
