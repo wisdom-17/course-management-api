@@ -18,7 +18,7 @@ class SubjectController extends Controller
      */
     public function index()
     {
-        return new SubjectCollection(Subject::all());
+        return new SubjectCollection(Subject::paginate());
     }
 
     /**

@@ -23,15 +23,18 @@ test('list subjects returns an array of subjects objects', function () {
     $this->actingAs($this->user)
         ->get('/api/subjects')
         ->assertJson(fn (AssertableJson $json) => 
-            $json->has('subjects', 3, fn ($json) =>
-                $json
-                    ->hasAll(['id', 'name', 'teachers', 'daysAndTimes', 'createdAt', 'updatedAt', 'deletedAt'])
-                    ->has('teachers', 1, fn ($teacherJson) => 
-                        $teacherJson->hasAll(['id', 'name', 'hourlyRate', 'subjectsCount', 'createdAt', 'updatedAt', 'deletedAt'])
-                    )
-                    ->has('daysAndTimes', 1, fn ($daysAndTimesJson) => 
-                        $daysAndTimesJson->hasAll(['id', 'subjectId','day', 'startTime', 'endTime', 'createdAt', 'updatedAt'])
-                    )
+            $json
+                ->has('meta')
+                ->has('links')
+                ->has('subjects', 3, fn ($json) =>
+                    $json
+                        ->hasAll(['id', 'name', 'teachers', 'daysAndTimes', 'createdAt', 'updatedAt', 'deletedAt'])
+                        ->has('teachers', 1, fn ($teacherJson) => 
+                            $teacherJson->hasAll(['id', 'name', 'hourlyRate', 'subjectsCount', 'createdAt', 'updatedAt', 'deletedAt'])
+                        )
+                        ->has('daysAndTimes', 1, fn ($daysAndTimesJson) => 
+                            $daysAndTimesJson->hasAll(['id', 'subjectId','day', 'startTime', 'endTime', 'createdAt', 'updatedAt'])
+                        )
             )            
         )
         ->assertStatus(200);
