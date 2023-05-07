@@ -89,8 +89,7 @@ class CourseCalendarController extends Controller
                         'name' => $date['name'],
                         'start_date' => Carbon::parse($date['startDate'])->format('Y-m-d'),
                         'end_date' => Carbon::parse($date['endDate'])->format('Y-m-d'),
-                        'date_type_id' => $dateType->id,
-                        'course_calendar_id' => $courseCalendar->id
+                        'date_type_id' => $dateType->id
                     ]);
                 }
             }
