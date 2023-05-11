@@ -4,7 +4,7 @@ namespace App\Http\Resources;
 
 use Illuminate\Http\Resources\Json\JsonResource;
 use App\Http\Resources\DateTypeResource;
-use Illuminate\Support\Facades\Log;
+use App\Models\DateType;
 
 class CourseDateResource extends JsonResource
 {
@@ -16,11 +16,10 @@ class CourseDateResource extends JsonResource
      */
     public function toArray($request)
     {
-        Log::info($this->dateType);
         return [
             'id' => $this->id,
-            'courseId' => $this->course_id,
-            'type' => $this->dateType,
+            'courseCalendarId' => $this->course_calendar_id,
+            'type' => (DateTypeResource::make(DateType::find($this->date_type_id)))->type,
             'startDate' => $this->start_date,
             'endDate' => $this->end_date,
             'createdAt' => $this->created_at,
