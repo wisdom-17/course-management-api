@@ -31,4 +31,12 @@ class CourseDate extends Model
     {
         return $this->belongsTo(Semester::class);
     }
+
+    /**
+     * Get the Course Calendar for the course date
+     */
+    public function courseCalendar()
+    {
+        return $this->belongsTo(CourseCalendar::class);
+    }
 }
