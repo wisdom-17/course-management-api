@@ -2,6 +2,7 @@
 
 namespace Database\Factories;
 
+use App\Models\CourseDate;
 use Illuminate\Database\Eloquent\Factories\Factory;
 
 /**
@@ -16,11 +17,27 @@ class CourseDateFactory extends Factory
      */
     public function definition()
     {
-        $startDate = fake()->dateTimeBetween('next Tuesday', 'next Monday +7 days');
-        $endDate = fake()->dateTimeBetween($startDate, $startDate->format('Y-m-d H:i:S').' +4 weeks');
         return [
-            'start_date' => $startDate->format('Y-m-d'),
-            'end_date' => $endDate->format('Y-m-d'),
+            'name' => ucfirst(fake()->word()).' Dates',
         ];
+    }
+
+    public function configure()
+    {
+        return $this->afterMaking(function (CourseDate $courseDate) {
+            if ($courseDate->start_date == '' && $courseDate->end_date == '') {
+                $semester = $courseDate->semester;
+                $courseDate->start_date = fake()->dateTimeBetween(
+                    \DateTime::createFromFormat('Y-m-d', $semester->courseCalendar->start_date),
+                    (clone \DateTime::createFromFormat('Y-m-d', $semester->courseCalendar->start_date))->add(new \DateInterval('P1M'))
+                )->format('Y-m-d');
+
+                $courseDate->end_date = fake()->dateTimeBetween(
+                    (clone \DateTime::createFromFormat('Y-m-d', $semester->courseCalendar->start_date))->add(new \DateInterval('P1M')), 
+                    \DateTime::createFromFormat('Y-m-d', $semester->courseCalendar->end_date)
+                )->format('Y-m-d');
+            }
+
+        });
     }
 }
