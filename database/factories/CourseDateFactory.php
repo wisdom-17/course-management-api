@@ -27,14 +27,24 @@ class CourseDateFactory extends Factory
         return $this->afterMaking(function (CourseDate $courseDate) {
             if ($courseDate->start_date == '' && $courseDate->end_date == '') {
                 $semester = $courseDate->semester;
+
+                // get calendar start and end dates from semester or course calendar
+                if ($semester) {
+                    $calendarStartDate = $semester->courseCalendar->start_date;
+                    $calendarEndDate = $semester->courseCalendar->end_date;
+                } else {
+                    $calendarStartDate = $courseDate->courseCalendar->start_date;
+                    $calendarEndDate = $courseDate->courseCalendar->end_date;
+                }
+
                 $courseDate->start_date = fake()->dateTimeBetween(
-                    \DateTime::createFromFormat('Y-m-d', $semester->courseCalendar->start_date),
-                    (clone \DateTime::createFromFormat('Y-m-d', $semester->courseCalendar->start_date))->add(new \DateInterval('P1M'))
+                    \DateTime::createFromFormat('Y-m-d', $calendarStartDate),
+                    (clone \DateTime::createFromFormat('Y-m-d', $calendarStartDate))->add(new \DateInterval('P1M'))
                 )->format('Y-m-d');
 
                 $courseDate->end_date = fake()->dateTimeBetween(
-                    (clone \DateTime::createFromFormat('Y-m-d', $semester->courseCalendar->start_date))->add(new \DateInterval('P1M')), 
-                    \DateTime::createFromFormat('Y-m-d', $semester->courseCalendar->end_date)
+                    (clone \DateTime::createFromFormat('Y-m-d', $calendarStartDate))->add(new \DateInterval('P1M')), 
+                    \DateTime::createFromFormat('Y-m-d', $calendarEndDate)
                 )->format('Y-m-d');
             }
 

@@ -22,6 +22,7 @@ class CourseCalendarSeeder extends Seeder
         $termDateType = DateType::where('type', 'term')->first();
         $holidayDateType = DateType::where('type', 'holiday')->first();
 
+        // with semesters
         CourseCalendar::factory()
             ->has(
                 Semester::factory()
@@ -42,7 +43,27 @@ class CourseCalendarSeeder extends Seeder
                 )
                 ->count(2)
             )
-            ->count(10)
+            ->count(5)
+            ->create();
+
+        // without semesters
+        CourseCalendar::factory()
+            ->has(
+                CourseDate::factory()
+                    ->count(2)
+                    ->sequence(fn (Sequence $sequence) => 
+                        $sequence->index === 0
+                            ? [
+                                'name' => ucfirst(fake()->word()).' Term date', 
+                                'date_type_id' => $termDateType->id, 
+                            ]
+                            : [
+                                'name' => ucfirst(fake()->word()).' Holiday date', 
+                                'date_type_id' => $holidayDateType->id,
+                            ]
+                    )
+            )
+            ->count(5)
             ->create();
     }
 }
