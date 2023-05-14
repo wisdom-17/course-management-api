@@ -19,6 +19,7 @@ class CourseDateResource extends JsonResource
         return [
             'id' => $this->id,
             'courseCalendarId' => $this->course_calendar_id,
+            'name' => $this->name,
             'type' => (DateTypeResource::make(DateType::find($this->date_type_id)))->type,
             'startDate' => $this->start_date,
             'endDate' => $this->end_date,
