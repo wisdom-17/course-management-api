@@ -4,6 +4,7 @@ use App\Http\Controllers\TokenController;
 use App\Http\Controllers\AuthController;
 use App\Http\Controllers\CourseCalendarController;
 use App\Http\Controllers\CourseDateController;
+use App\Http\Controllers\CourseController;
 use App\Http\Controllers\SubjectController;
 use App\Http\Controllers\TeacherController;
 use Illuminate\Http\Request;
@@ -50,7 +51,8 @@ Route::middleware(['auth:sanctum'])->group(function () {
     Route::apiResources([
         'course-calendars.dates' => CourseDateController::class,
         'teachers' => TeacherController::class,
-        'subjects' => SubjectController::class
+        'subjects' => SubjectController::class,
+        'courses' => CourseController::class,
     ]);
 
 
