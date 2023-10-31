@@ -5,11 +5,10 @@ namespace App\Http\Controllers;
 use App\Http\Requests\DestroyCourseRequest;
 use App\Http\Requests\StoreCourseCalendarRequest;
 use App\Http\Requests\UpdateCourseCalendarRequest;
-use App\Http\Resources\CourseCalendarResource;
+use App\Http\Resources\CourseResource;
 use App\Models\CourseCalendar;
 use App\Models\DateType;
 use Carbon\Carbon;
-use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Str;
 
 class CourseCalendarController extends Controller
@@ -22,7 +21,7 @@ class CourseCalendarController extends Controller
     public function index()
     {
         return response()->json(
-            CourseCalendarResource::collection(CourseCalendar::all())
+            CourseResource::collection(CourseCalendar::all())
         , 200);
     }
 

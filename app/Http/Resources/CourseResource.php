@@ -3,10 +3,12 @@
 namespace App\Http\Resources;
 
 use Illuminate\Http\Resources\Json\JsonResource;
-use App\Http\Resources\CourseDateResource;
+use App\Models\CourseCalendar;
 
-class CourseCalendarResource extends JsonResource
+class CourseResource extends JsonResource
 {
+    public $collects = CourseCalendar::class;
+    
     /**
      * Transform the resource into an array.
      *
@@ -22,6 +24,7 @@ class CourseCalendarResource extends JsonResource
             'endDate' => $this->end_date,
             'semesters' => SemesterResource::collection($this->semesters),
             'dates' => CourseDateResource::collection($this->courseDates),
+            'subjects' => SubjectResource::collection($this->subjects),
             'createdAt' => $this->created_at,
             'updatedAt' => $this->updated_at,
             'deletedAt' => $this->deleted_at,
