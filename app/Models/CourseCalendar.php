@@ -26,4 +26,13 @@ class CourseCalendar extends Model
     {
         return $this->hasMany(Semester::class);
     }
+
+    /**
+     * Get Subjects for the Course Calendar
+     */
+    public function subjects()
+    {
+        return $this->hasMany(Subject::class);
+    }
+
 }
