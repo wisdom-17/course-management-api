@@ -6,6 +6,9 @@ use App\Models\Course;
 use App\Models\CourseDate;
 use App\Models\DateType;
 use App\Models\Semester;
+use App\Models\Subject;
+use App\Models\SubjectDayTime;
+use App\Models\Teacher;
 use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 use Illuminate\Database\Eloquent\Factories\Sequence;
 use Illuminate\Database\Seeder;
@@ -42,6 +45,18 @@ class CourseSeeder extends Seeder
                         )
                 )
                 ->count(2)
+            )
+            ->has(
+                Subject::factory()
+                    ->count(3)
+                    ->has(
+                        SubjectDayTime::factory()
+                            ->count(2)
+                    )
+                    ->has(
+                        Teacher::factory()
+                            ->count(1)
+                    )
             )
             ->count(5)
             ->create();
