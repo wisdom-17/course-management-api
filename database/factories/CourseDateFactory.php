@@ -30,11 +30,11 @@ class CourseDateFactory extends Factory
 
                 // get course start and end dates from semester or course course
                 if ($semester) {
-                    $courseStartDate = $semester->courseCourse->start_date;
-                    $courseEndDate = $semester->courseCourse->end_date;
+                    $courseStartDate = $semester->course->start_date;
+                    $courseEndDate = $semester->course->end_date;
                 } else {
-                    $courseStartDate = $courseDate->courseCourse->start_date;
-                    $courseEndDate = $courseDate->courseCourse->end_date;
+                    $courseStartDate = $courseDate->course->start_date;
+                    $courseEndDate = $courseDate->course->end_date;
                 }
 
                 $courseDate->start_date = fake()->dateTimeBetween(

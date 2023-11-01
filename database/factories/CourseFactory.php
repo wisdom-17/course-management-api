@@ -23,7 +23,7 @@ class CourseFactory extends Factory
         );
 
         return [
-            'name' => ucfirst(fake()->word()).' Course Course',
+            'name' => ucfirst(fake()->word()).' Course',
             'start_date' => $startDate->format('Y-m-d'),
             'end_date' => $endDate->format('Y-m-d'),
         ];
