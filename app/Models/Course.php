@@ -6,13 +6,13 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
 
-class CourseCalendar extends Model
+class Course extends Model
 {
     use HasFactory;
     use SoftDeletes;
 
     /**
-     * Get dates for the Course Calendar
+     * Get dates for the Course Course
      */
     public function courseDates()
     {
@@ -20,7 +20,7 @@ class CourseCalendar extends Model
     }
 
     /**
-     * Get Semesters for the Course Calendar
+     * Get Semesters for the Course Course
      */
     public function semesters()
     {
@@ -28,7 +28,7 @@ class CourseCalendar extends Model
     }
 
     /**
-     * Get Subjects for the Course Calendar
+     * Get Subjects for the Course Course
      */
     public function subjects()
     {

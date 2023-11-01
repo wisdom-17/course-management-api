@@ -2,7 +2,7 @@
 
 namespace Database\Factories;
 
-use App\Models\CourseCalendar;
+use App\Models\Course;
 use Illuminate\Database\Eloquent\Factories\Factory;
 
 /**
@@ -19,7 +19,7 @@ class SubjectFactory extends Factory
     {
         return [
             'name' => fake()->word(),
-            'course_calendar_id' => CourseCalendar::factory()
+            'course_id' => Course::factory()
         ];
     }
 }

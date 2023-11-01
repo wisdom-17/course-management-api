@@ -17,11 +17,11 @@ class Semester extends Model
     protected $fillable = ['name'];
 
     /**
-     * Get the Course Calendar
+     * Get the Course Course
      */
-    public function courseCalendar()
+    public function course()
     {
-        return $this->belongsTo(CourseCalendar::class);
+        return $this->belongsTo(Course::class);
     }
 
     /**

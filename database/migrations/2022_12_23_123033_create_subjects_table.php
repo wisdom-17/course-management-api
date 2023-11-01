@@ -16,7 +16,7 @@ return new class extends Migration
         Schema::create('subjects', function (Blueprint $table) {
             $table->id();
             $table->string('name', 255);
-            $table->foreignId('course_calendar_id')->constrained('course_calendars');
+            $table->foreignId('course_id')->constrained('courses');
             $table->softDeletes();
             $table->timestamps();
         });

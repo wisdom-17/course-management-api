@@ -4,7 +4,7 @@ namespace App\Http\Requests;
 
 use Illuminate\Foundation\Http\FormRequest;
 
-class UpdateCourseCalendarRequest extends FormRequest
+class StoreCourseRequest extends FormRequest
 {
     /**
      * Determine if the user is authorized to make this request.
@@ -27,8 +27,18 @@ class UpdateCourseCalendarRequest extends FormRequest
             'name' => 'required|max:255',
             'startDate' => 'required|date',
             'endDate' => 'required|date',
-            'semesters' => 'array',
-            'semesters.*.name' => 'max:255'
+            'semesters' => 'array|sometimes',
+            'terms' => 'array|min:1',
+            'terms.*.semester' => 'max:255',
+            'terms.*.name' => 'max:255',
+            'terms.*.startDate' => 'date',
+            'terms.*.endDate' => 'date',
+            'holidays' => 'array|min:1',
+            'holidays.*.semester' => 'max:255',
+            'holidays.*.name' => 'max:255',
+            'holidays.*.startDate' => 'date',
+            'holidays.*.endDate' => 'date',
+
         ];
     }
 }

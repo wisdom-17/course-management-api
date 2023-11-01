@@ -14,7 +14,7 @@ class CourseDate extends Model
      *
      * @var array
      */
-    protected $fillable = ['name', 'semester_id', 'date_type_id', 'course_calendar_id', 'start_date', 'end_date'];
+    protected $fillable = ['name', 'semester_id', 'date_type_id', 'course_id', 'start_date', 'end_date'];
 
     /**
      * Get the date type
@@ -33,10 +33,10 @@ class CourseDate extends Model
     }
 
     /**
-     * Get the Course Calendar for the course date
+     * Get the Course Course for the course date
      */
-    public function courseCalendar()
+    public function course()
     {
-        return $this->belongsTo(CourseCalendar::class);
+        return $this->belongsTo(Course::class);
     }
 }

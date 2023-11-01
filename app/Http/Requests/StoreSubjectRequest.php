@@ -31,7 +31,7 @@ class StoreSubjectRequest extends FormRequest
             'name' => 'required',
             'teacherIds' => 'required|array',
             'teacherIds.*' => Rule::in($existingTeacherIds),
-            'courseCalendarId' => 'required|exists:course_calendars,id',
+            'courseId' => 'required|exists:courses,id',
             'daysTimes' => 'required|array|min:1',
             'daysTimes.*.day' => 'required',
             'daysTimes.*.startTime' => 'required|date_format:H:i',

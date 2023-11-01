@@ -32,7 +32,7 @@ class SubjectController extends Controller
         $subject = new Subject();
         DB::transaction(function () use ($request, $subject) {
             $subject->name = $request->name;
-            $subject->course_calendar_id = $request->courseCalendarId;
+            $subject->course_id = $request->courseId;
             $subject->save();
 
             $subject->teachers()->attach($request->teacherIds);
@@ -75,7 +75,7 @@ class SubjectController extends Controller
     {
         DB::transaction(function () use ($subject, $request) {
             $subject->name = $request->name;
-            $subject->course_calendar_id = $request->courseCalendarId;
+            $subject->course_id = $request->courseId;
             $subject->save();
     
             $subject->teachers()->sync($request->teacherIds);

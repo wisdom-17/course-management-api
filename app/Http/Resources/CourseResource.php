@@ -3,11 +3,11 @@
 namespace App\Http\Resources;
 
 use Illuminate\Http\Resources\Json\JsonResource;
-use App\Models\CourseCalendar;
+use App\Models\Course;
 
 class CourseResource extends JsonResource
 {
-    public $collects = CourseCalendar::class;
+    public $collects = Course::class;
     
     /**
      * Transform the resource into an array.

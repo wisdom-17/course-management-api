@@ -2,7 +2,6 @@
 
 use App\Http\Controllers\TokenController;
 use App\Http\Controllers\AuthController;
-use App\Http\Controllers\CourseCalendarController;
 use App\Http\Controllers\CourseDateController;
 use App\Http\Controllers\CourseController;
 use App\Http\Controllers\SubjectController;
@@ -42,17 +41,16 @@ Route::middleware(['auth:sanctum'])->group(function () {
     // 
     // - defined as a PATCH request because we are soft deleting (according to REST this is not DELETE )
     // soft deleting just changes the value of the deleted_at column
-    Route::patch('/course-calendars', [CourseCalendarController::class, 'destroy']);
+    Route::patch('/courses', [CourseController::class, 'destroy']);
 
     // we don't want the default destroy route, as it supports deleting one record 
     // we want to delete multiple in one request hence the above
-    Route::apiResource('course-calendars', CourseCalendarController::class)->except('destroy');
+    Route::apiResource('courses', CourseController::class)->except('destroy');
 
     Route::apiResources([
-        'course-calendars.dates' => CourseDateController::class,
+        'course.dates' => CourseDateController::class,
         'teachers' => TeacherController::class,
         'subjects' => SubjectController::class,
-        'courses' => CourseController::class,
     ]);
 
 

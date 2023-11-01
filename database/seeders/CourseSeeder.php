@@ -2,7 +2,7 @@
 
 namespace Database\Seeders;
 
-use App\Models\CourseCalendar;
+use App\Models\Course;
 use App\Models\CourseDate;
 use App\Models\DateType;
 use App\Models\Semester;
@@ -10,7 +10,7 @@ use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 use Illuminate\Database\Eloquent\Factories\Sequence;
 use Illuminate\Database\Seeder;
 
-class CourseCalendarSeeder extends Seeder
+class CourseSeeder extends Seeder
 {
     /**
      * Run the database seeds.
@@ -23,7 +23,7 @@ class CourseCalendarSeeder extends Seeder
         $holidayDateType = DateType::where('type', 'holiday')->first();
 
         // with semesters
-        CourseCalendar::factory()
+        Course::factory()
             ->has(
                 Semester::factory()
                 ->has(
@@ -47,7 +47,7 @@ class CourseCalendarSeeder extends Seeder
             ->create();
 
         // without semesters
-        CourseCalendar::factory()
+        Course::factory()
             ->has(
                 CourseDate::factory()
                     ->count(2)

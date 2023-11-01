@@ -28,23 +28,23 @@ class CourseDateFactory extends Factory
             if ($courseDate->start_date == '' && $courseDate->end_date == '') {
                 $semester = $courseDate->semester;
 
-                // get calendar start and end dates from semester or course calendar
+                // get course start and end dates from semester or course course
                 if ($semester) {
-                    $calendarStartDate = $semester->courseCalendar->start_date;
-                    $calendarEndDate = $semester->courseCalendar->end_date;
+                    $courseStartDate = $semester->courseCourse->start_date;
+                    $courseEndDate = $semester->courseCourse->end_date;
                 } else {
-                    $calendarStartDate = $courseDate->courseCalendar->start_date;
-                    $calendarEndDate = $courseDate->courseCalendar->end_date;
+                    $courseStartDate = $courseDate->courseCourse->start_date;
+                    $courseEndDate = $courseDate->courseCourse->end_date;
                 }
 
                 $courseDate->start_date = fake()->dateTimeBetween(
-                    \DateTime::createFromFormat('Y-m-d', $calendarStartDate),
-                    (clone \DateTime::createFromFormat('Y-m-d', $calendarStartDate))->add(new \DateInterval('P1M'))
+                    \DateTime::createFromFormat('Y-m-d', $courseStartDate),
+                    (clone \DateTime::createFromFormat('Y-m-d', $courseStartDate))->add(new \DateInterval('P1M'))
                 )->format('Y-m-d');
 
                 $courseDate->end_date = fake()->dateTimeBetween(
-                    (clone \DateTime::createFromFormat('Y-m-d', $calendarStartDate))->add(new \DateInterval('P1M')), 
-                    \DateTime::createFromFormat('Y-m-d', $calendarEndDate)
+                    (clone \DateTime::createFromFormat('Y-m-d', $courseStartDate))->add(new \DateInterval('P1M')), 
+                    \DateTime::createFromFormat('Y-m-d', $courseEndDate)
                 )->format('Y-m-d');
             }
 

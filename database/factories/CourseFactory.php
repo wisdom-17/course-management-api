@@ -5,9 +5,9 @@ namespace Database\Factories;
 use Illuminate\Database\Eloquent\Factories\Factory;
 
 /**
- * @extends \Illuminate\Database\Eloquent\Factories\Factory<\App\Models\CourseCalendar>
+ * @extends \Illuminate\Database\Eloquent\Factories\Factory<\App\Models\Course>
  */
-class CourseCalendarFactory extends Factory
+class CourseFactory extends Factory
 {
     /**
      * Define the model's default state.
@@ -23,7 +23,7 @@ class CourseCalendarFactory extends Factory
         );
 
         return [
-            'name' => ucfirst(fake()->word()).' Course Calendar',
+            'name' => ucfirst(fake()->word()).' Course Course',
             'start_date' => $startDate->format('Y-m-d'),
             'end_date' => $endDate->format('Y-m-d'),
         ];
