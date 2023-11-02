@@ -16,12 +16,11 @@ class SubjectDayTimeFactory extends Factory
      */
     public function definition()
     {
-        $startDate = fake()->dateTimeBetween('next Tuesday', 'next Monday +7 days');
-        $endDate = fake()->dateTimeBetween($startDate, $startDate->format('Y-m-d H:i:s').' +4 weeks');
+        $startAndEndTime = $this->faker->startAndEndTime;
         return [
-            'day' => fake()->dayOfWeek(),
-            'start_time' => $startDate->format('H:i:s'),
-            'end_time' => $endDate->format('H:i:s'),
+            'day' => $this->faker->dayOfWeek(),
+            'start_time' => $startAndEndTime['start_time'],
+            'end_time' => $startAndEndTime['end_time'],
         ];
     }
 }
