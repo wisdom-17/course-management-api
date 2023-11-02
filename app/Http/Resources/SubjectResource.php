@@ -4,6 +4,7 @@ namespace App\Http\Resources;
 
 use Illuminate\Http\Resources\Json\JsonResource;
 use App\Http\Resources\TeacherCollection;
+use App\Http\Resources\SubjectDayTimeResource;
 
 class SubjectResource extends JsonResource
 {
@@ -19,7 +20,7 @@ class SubjectResource extends JsonResource
             'id' => $this->id,
             'name' => $this->name,
             'teachers' => new TeacherCollection($this->teachers),
-            'daysAndTimes' => new SubjectDayTimeCollection($this->subjectDayTimes),
+            'daysAndTimes' => SubjectDayTimeResource::collection($this->subjectDayTimes),
             'createdAt' => $this->created_at,
             'updatedAt' => $this->updated_at,
             'deletedAt' => $this->deleted_at
