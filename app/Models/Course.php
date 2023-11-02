@@ -12,7 +12,7 @@ class Course extends Model
     use SoftDeletes;
 
     /**
-     * Get dates for the Course Course
+     * Get dates for the Course
      */
     public function courseDates()
     {
@@ -20,7 +20,7 @@ class Course extends Model
     }
 
     /**
-     * Get Semesters for the Course Course
+     * Get Semesters for the Course
      */
     public function semesters()
     {
@@ -28,11 +28,10 @@ class Course extends Model
     }
 
     /**
-     * Get Subjects for the Course Course
+     * Get Subjects for the Course
      */
     public function subjects()
     {
         return $this->hasMany(Subject::class);
     }
-
 }
