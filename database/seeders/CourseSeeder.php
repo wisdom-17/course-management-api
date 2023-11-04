@@ -78,6 +78,18 @@ class CourseSeeder extends Seeder
                             ]
                     )
             )
+            ->has(
+                Subject::factory()
+                    ->count(3)
+                    ->has(
+                        SubjectDayTime::factory()
+                            ->count(2)
+                    )
+                    ->has(
+                        Teacher::factory()
+                            ->count(1)
+                    )
+            )
             ->count(5)
             ->create();
     }
