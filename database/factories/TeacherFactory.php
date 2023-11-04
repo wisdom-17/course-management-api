@@ -18,7 +18,7 @@ class TeacherFactory extends Factory
     {
         return [
             'name' => fake()->name(),
-            'hourly_rate' => fake()->randomFloat(2, 10, 30),
+            'hourly_rate' =>  number_format(fake()->randomFloat(1, 20, 30), 2)
         ];
     }
 }
