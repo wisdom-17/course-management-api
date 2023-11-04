@@ -11,7 +11,7 @@ beforeEach(function () {
     $this->seed(DateTypeSeeder::class);
 });
 
-test('List course courses returns an array of course course objects', function () {
+test('List courses returns an array of course objects', function () {
     $this->actingAs($this->user)
         ->get('/api/courses')
         ->assertJson(fn (AssertableJson $json) => 
@@ -20,16 +20,16 @@ test('List course courses returns an array of course course objects', function (
         ->assertStatus(200);
 });
 
-test('Empty course course data throws validation error when saving', function () {
+test('Empty course data throws validation error when saving', function () {
     $this->actingAs($this->user)
         ->postJson('/api/courses')
         ->assertInvalid(['name', 'startDate', 'endDate']);
 });
 
-test('Course Course, Semesters, and course dates save to db when valid data provided', function () {  
+test('course, Semesters, and course dates save to db when valid data provided', function () {  
     $this->actingAs($this->user)
          ->postJson('/api/courses', [
-            'name' => 'Test Course Course 1', 
+            'name' => 'Test course 1', 
             'startDate' => '2022-01-30',
             'endDate' => '2022-08-30',
             'semesters' => [
@@ -59,11 +59,11 @@ test('Course Course, Semesters, and course dates save to db when valid data prov
 
  });
 
-test('Existing Course Course updates when valid data provided', function () {
+test('Existing course updates when valid data provided', function () {
     $courseId = $this->courses->first()->id;
     $this->actingAs($this->user)
         ->patchJson('/api/courses/'.$courseId, [
-            'name' => 'Updated Course Course Name',
+            'name' => 'Updated course Name',
             'startDate' => '2023-02-01',
             'endDate' => '2023-04-01'
         ])
@@ -71,7 +71,7 @@ test('Existing Course Course updates when valid data provided', function () {
         ->assertOk();
 });
 
-test('Course Courses are soft deleted', function () {
+test('courses are soft deleted', function () {
     $courseIdA = $this->courses->first()->id;
     $courseIdB = $this->courses->last()->id;
 

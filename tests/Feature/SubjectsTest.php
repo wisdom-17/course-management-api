@@ -12,7 +12,7 @@ beforeEach(function () {
     $this->subjects = Subject::factory()
         ->has(Teacher::factory()->count(1))
         ->has(SubjectDayTime::factory()->count(1))
-    ->count(3)->create();
+        ->count(3)->create();
     $this->courses = Course::factory()->count(2)->create();
     $this->teacherIds = array_merge(...$this->subjects->map(function ($subject) {
         return $subject->teachers()->pluck('teachers.id')->toArray();
