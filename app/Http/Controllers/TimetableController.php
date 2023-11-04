@@ -2,18 +2,28 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Course;
+use App\Services\TimetableService;
 use Illuminate\Http\Request;
 
 class TimetableController extends Controller
 {
+    private $timetableService;
+
+    public function __construct(TimetableService $timetableService)
+    {
+        $this->timetableService = $timetableService;
+    }
+
     /**
      * Display a listing of the resource.
      *
      * @return \Illuminate\Http\Response
      */
-    public function index()
+    public function index(Course $course)
     {
-        return response()->json([], 200);
+        $timetable = $this->timetableService->generateTimetable($course);
+        return response()->json($timetable, 200);
     }
 
     /**
