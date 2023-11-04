@@ -1,5 +1,6 @@
 <?php
 
+use App\Models\Course;
 use App\Models\Subject;
 use App\Models\SubjectDayTime;
 use App\Models\Teacher;
@@ -8,7 +9,11 @@ use Illuminate\Testing\Fluent\AssertableJson;
 
 beforeEach(function () {
     $this->user = User::factory()->create();
+
+    $this->course = Course::factory()->create();
+
     $this->subjects = Subject::factory()
+        ->for($this->course)
         ->has(Teacher::factory()->count(1))
         ->count(3)->create();
     
