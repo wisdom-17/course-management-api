@@ -6,6 +6,7 @@ use App\Http\Controllers\CourseDateController;
 use App\Http\Controllers\CourseController;
 use App\Http\Controllers\SubjectController;
 use App\Http\Controllers\TeacherController;
+use App\Http\Controllers\TimetableController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 
@@ -53,6 +54,6 @@ Route::middleware(['auth:sanctum'])->group(function () {
         'subjects' => SubjectController::class,
     ]);
 
-
+    Route::get('/courses/{courseId}/timetable', [TimetableController::class, 'index']);
     
 });
