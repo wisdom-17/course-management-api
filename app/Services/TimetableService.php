@@ -29,6 +29,11 @@ class TimetableService
             });
         })->flatten()->unique()->toArray();
 
+        $order = ['Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday', 'Sunday'];
+        usort($days, function ($a, $b) use ($order) {
+            return array_search($a, $order) - array_search($b, $order);
+        });
+
         return $days;
     }
 }
