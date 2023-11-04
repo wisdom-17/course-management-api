@@ -15,12 +15,7 @@ class TimetableController extends Controller
         $this->timetableService = $timetableService;
     }
 
-    /**
-     * Display a listing of the resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
-    public function index(Course $course)
+    public function getTimetable(Course $course)
     {
         $timetable = $this->timetableService->generateTimetable($course);
         return response()->json($timetable, 200);

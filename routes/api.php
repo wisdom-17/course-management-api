@@ -54,6 +54,6 @@ Route::middleware(['auth:sanctum'])->group(function () {
         'subjects' => SubjectController::class,
     ]);
 
-    Route::get('/courses/{course}/timetable', [TimetableController::class, 'index']);
+    Route::get('/courses/{course}/timetable', [TimetableController::class, 'getTimetable']);
     
 });
