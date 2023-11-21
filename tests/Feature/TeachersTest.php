@@ -37,7 +37,7 @@ test('all teachers returns an array of all the teacher objects in the database',
                         ->where('name', $this->teachers->first()->name)
                         ->where('hourlyRate', strval($this->teachers->first()->hourly_rate))
                         ->etc()
-            )
+                )
         )
         ->assertStatus(200);
 });
