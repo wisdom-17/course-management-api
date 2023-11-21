@@ -17,7 +17,8 @@ class TimetableController extends Controller
 
     public function getTimetable(Course $course)
     {
-        $timetable = $this->timetableService->generateTimetable($course);
+        $courseWithSubjectsAndDayTimes = $course->load('subjects.subjectDayTimes');
+        $timetable = $this->timetableService->generateTimetable($courseWithSubjectsAndDayTimes);
         return response()->json($timetable, 200);
     }
 
