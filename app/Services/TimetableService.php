@@ -14,26 +14,23 @@ class TimetableService
             throw new \Exception('Invalid course for timetable generation');
         }
 
-        // 1) Get the days the subject(s) are taught on
-        $days = $this->getDays();
-
-        $timetable = array_fill_keys($days, []);
+        $timetable = $this->getSubjectsForEachDay();
         return $timetable;
     }
 
-    private function getDays()
+
+    private function getSubjectsForEachDay()
     {
-        $days = $this->course->subjects->map(function ($subject) {
-            return $subject->subjectDayTimes->map(function ($dayTime) {
-                return $dayTime->day;
+        // 1. Group the subjects by day
+        $groupedSubjects = $this->course->subjects->flatMap(function ($subject) {
+            return $subject->subjectDayTimes->map(function ($dayTime) use ($subject) {
+                return [
+                    'day' => $dayTime->day,
+                    'subject' => $subject
+                ];
             });
-        })->flatten()->unique()->toArray();
+        })->groupBy('day');
 
-        $order = ['Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday', 'Sunday'];
-        usort($days, function ($a, $b) use ($order) {
-            return array_search($a, $order) - array_search($b, $order);
-        });
-
-        return $days;
+        return $groupedSubjects;
     }
 }
