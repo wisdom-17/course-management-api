@@ -17,14 +17,11 @@ beforeEach(function () {
         ->has(Teacher::factory()->count(1))
         ->count(3)->create();
     
+
+
     SubjectDayTime::factory()->state(['day' => 'Monday'])
         ->count(2)
         ->for($this->subjects->first())
-        ->create();
-
-    SubjectDayTime::factory()->state(['day' => 'Tuesday'])
-        ->count(2)
-        ->for($this->subjects[1])
         ->create();
 
     SubjectDayTime::factory()->state(['day' => 'Wednesday'])
@@ -32,15 +29,26 @@ beforeEach(function () {
         ->for($this->subjects[2])
         ->create();
     
+    SubjectDayTime::factory()->state(['day' => 'Friday'])
+        ->count(2)
+        ->for($this->subjects[1])
+        ->create();
+    
 });
 
 test('Returns days of the week the subjects are taught', function () {
     $response = $this->actingAs($this->user)->get('/api/courses/'.$this->subjects->first()->course->id.'/timetable');
 
+    $response->assertSeeInOrder([
+        'Monday',
+        'Wednesday',
+        'Friday',
+    ]);
+
     $response
         ->assertJson(fn (AssertableJson $json) => 
             $json
-                ->hasAll(['Monday', 'Tuesday', 'Wednesday'])
+                ->hasAll(['Monday', 'Wednesday', 'Friday'])
         )
         ->assertStatus(200);
 });
@@ -52,8 +60,8 @@ test('Returns the subjects for each day that are taught in the course', function
         ->assertJson(fn (AssertableJson $json) => 
             $json
                 ->has('Monday', 2)
-                ->has('Tuesday', 2)
                 ->has('Wednesday', 2)
+                ->has('Friday', 2)
         )
         ->assertStatus(200);
 });

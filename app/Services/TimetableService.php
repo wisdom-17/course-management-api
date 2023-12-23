@@ -29,7 +29,10 @@ class TimetableService
                     'subject' => $subject
                 ];
             });
-        })->groupBy('day');
+        // 2. Group by day + sort the days by the order of the week 
+        })->groupBy('day')->sortBy(function ($subjects, $day) {
+            return array_search($day, ['Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday', 'Sunday']);
+        });
 
         return $groupedSubjects;
     }
