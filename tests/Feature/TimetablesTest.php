@@ -5,6 +5,7 @@ use App\Models\Subject;
 use App\Models\SubjectDayTime;
 use App\Models\Teacher;
 use App\Models\User;
+use Illuminate\Database\Eloquent\Factories\Sequence;
 use Illuminate\Testing\Fluent\AssertableJson;
 
 beforeEach(function () {
@@ -17,9 +18,7 @@ beforeEach(function () {
         ->has(Teacher::factory()->count(1))
         ->count(3)->create();
     
-
-
-    SubjectDayTime::factory()->state(['day' => 'Monday'])
+    SubjectDayTime::factory()->state(new Sequence(['day' => 'Monday'],['day' => 'Tuesday']))
         ->count(2)
         ->for($this->subjects->first())
         ->create();
@@ -41,6 +40,7 @@ test('Returns days of the week the subjects are taught', function () {
 
     $response->assertSeeInOrder([
         'Monday',
+        'Tuesday',
         'Wednesday',
         'Friday',
     ]);
@@ -48,7 +48,7 @@ test('Returns days of the week the subjects are taught', function () {
     $response
         ->assertJson(fn (AssertableJson $json) => 
             $json
-                ->hasAll(['Monday', 'Wednesday', 'Friday'])
+                ->hasAll(['Monday', 'Tuesday', 'Wednesday', 'Friday'])
         )
         ->assertStatus(200);
 });
@@ -59,7 +59,8 @@ test('Returns the subjects for each day that are taught in the course', function
     $response
         ->assertJson(fn (AssertableJson $json) => 
             $json
-                ->has('Monday', 2)
+                ->has('Monday', 1)
+                ->has('Tuesday', 1)
                 ->has('Wednesday', 2)
                 ->has('Friday', 2)
         )
